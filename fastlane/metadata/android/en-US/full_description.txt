@@ -1,0 +1,8 @@
+Matrix Puzzle is a minimal, logic-based puzzle game.
+
+Features:
+
+• Infinite Levels: Procedurally generated puzzles for endless gameplay.
+• 100% Offline: Play anytime, anywhere without an internet connection.
+• No Ads & No Trackers: Privacy-friendly with zero advertisements and analytics.
+• Lightweight: Clean, distraction-free interface.
