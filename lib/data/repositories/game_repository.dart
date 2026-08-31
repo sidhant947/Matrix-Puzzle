@@ -50,6 +50,7 @@ class GameRepository {
     final puzzle = engine.generatePuzzle(
       floorsCount: floorsCount,
       seed: seed,
+      levelNumber: level,
     );
     final floors = puzzle['options']['Floor'] as List<String>;
 

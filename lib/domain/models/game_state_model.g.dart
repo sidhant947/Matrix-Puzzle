@@ -33,13 +33,14 @@ class GameStateModelAdapter extends TypeAdapter<GameStateModel> {
       crossedClues:
           fields[10] == null ? [] : (fields[10] as List).cast<String>(),
       notes: fields[11] == null ? '' : fields[11] as String,
+      hintsUsed: fields[12] == null ? 0 : fields[12] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, GameStateModel obj) {
     writer
-      ..writeByte(12)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.categories)
       ..writeByte(1)
@@ -63,7 +64,9 @@ class GameStateModelAdapter extends TypeAdapter<GameStateModel> {
       ..writeByte(10)
       ..write(obj.crossedClues)
       ..writeByte(11)
-      ..write(obj.notes);
+      ..write(obj.notes)
+      ..writeByte(12)
+      ..write(obj.hintsUsed);
   }
 
   @override

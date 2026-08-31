@@ -40,6 +40,9 @@ class GameStateModel extends HiveObject {
   @HiveField(11, defaultValue: '')
   final String notes;
 
+  @HiveField(12, defaultValue: 0)
+  final int hintsUsed;
+
   GameStateModel({
     required this.categories,
     required this.options,
@@ -53,7 +56,17 @@ class GameStateModel extends HiveObject {
     this.dailyDate,
     this.crossedClues = const [],
     this.notes = '',
+    this.hintsUsed = 0,
   });
+
+  int get maxHints {
+    final floorsCount = options['Floor']?.length ?? 0;
+    return floorsCount <= 4 ? 1 : 2;
+  }
+
+  int get hintsRemaining => (maxHints - hintsUsed).clamp(0, maxHints);
+
+  bool get canUseHint => hintsRemaining > 0;
 
   GameStateModel copyWith({
     List<String>? categories,
@@ -68,6 +81,7 @@ class GameStateModel extends HiveObject {
     String? dailyDate,
     List<String>? crossedClues,
     String? notes,
+    int? hintsUsed,
   }) {
     return GameStateModel(
       categories: categories ?? this.categories,
@@ -82,6 +96,7 @@ class GameStateModel extends HiveObject {
       dailyDate: dailyDate ?? this.dailyDate,
       crossedClues: crossedClues ?? this.crossedClues,
       notes: notes ?? this.notes,
+      hintsUsed: hintsUsed ?? this.hintsUsed,
     );
   }
 }

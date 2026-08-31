@@ -13,6 +13,7 @@ class GameScreen extends ConsumerStatefulWidget {
 
 class _GameScreenState extends ConsumerState<GameScreen> {
   bool _showNotes = false;
+  bool _isHintActive = false;
   late final TextEditingController _notesController;
 
   @override
@@ -37,6 +38,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
         setState(() {
           _notesController.text = next.notes;
           _showNotes = false;
+          _isHintActive = false;
         });
       } else if (previous?.notes != next.notes && _notesController.text != next.notes) {
         _notesController.text = next.notes;
@@ -141,46 +143,102 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           : (settings.autoCheckSolution
               ? null
               : _buildCheckButton(context, state, notifier, theme)),
-      floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            heroTag: 'undo_fab',
-            backgroundColor: const Color(0xFF1E2030),
-            foregroundColor: const Color(0xFF4FFBDF),
-            onPressed: notifier.canUndo ? () => notifier.undo() : null,
-            child: const Icon(Icons.undo),
-          ),
-          const SizedBox(height: 12),
-          FloatingActionButton(
-            heroTag: 'notes_fab',
-            backgroundColor: const Color(0xFF1E2030),
-            foregroundColor: const Color(0xFF4FFBDF),
-            onPressed: () {
-              setState(() {
-                _showNotes = !_showNotes;
-              });
-            },
-            child: Icon(_showNotes ? Icons.format_list_bulleted : Icons.edit_note),
-          ),
-        ],
+      floatingActionButton: FloatingActionButton(
+        heroTag: 'notes_fab',
+        backgroundColor: const Color(0xFF1E2030),
+        foregroundColor: const Color(0xFF4FFBDF),
+        onPressed: () {
+          setState(() {
+            _showNotes = !_showNotes;
+          });
+        },
+        child: Icon(_showNotes ? Icons.format_list_bulleted : Icons.edit_note),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
+            padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 0.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: _isHintActive ? const Color(0xFFDCA134).withValues(alpha: 0.2) : null,
+                      side: BorderSide(
+                        color: _isHintActive
+                            ? const Color(0xFFDCA134)
+                            : (state.canUseHint
+                                ? const Color(0xFF4A4F6B)
+                                : const Color(0xFF4A4F6B).withValues(alpha: 0.4)),
+                      ),
+                      foregroundColor: _isHintActive
+                          ? const Color(0xFFDCA134)
+                          : (state.canUseHint
+                              ? const Color(0xFFFFFFFF)
+                              : const Color(0xFFFFFFFF).withValues(alpha: 0.4)),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                    ),
+                    onPressed: state.isVictory || (!state.canUseHint && !_isHintActive)
+                        ? null
+                        : () {
+                            setState(() {
+                              _isHintActive = !_isHintActive;
+                            });
+                          },
+                    icon: Icon(
+                      _isHintActive ? Icons.lightbulb : Icons.lightbulb_outline,
+                      size: 20,
+                      color: _isHintActive
+                          ? const Color(0xFFDCA134)
+                          : (state.canUseHint
+                              ? const Color(0xFF4FFBDF)
+                              : const Color(0xFF4FFBDF).withValues(alpha: 0.4)),
+                    ),
+                    label: Text(_isHintActive ? 'Tap a cell' : 'Hint'),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      side: BorderSide(
+                        color: notifier.canUndo ? const Color(0xFF4A4F6B) : const Color(0xFF4A4F6B).withValues(alpha: 0.4),
+                      ),
+                      foregroundColor: notifier.canUndo ? const Color(0xFFFFFFFF) : const Color(0xFFFFFFFF).withValues(alpha: 0.4),
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                    ),
+                    onPressed: notifier.canUndo ? () => notifier.undo() : null,
+                    icon: Icon(
+                      Icons.undo,
+                      size: 20,
+                      color: notifier.canUndo ? const Color(0xFF4FFBDF) : const Color(0xFF4FFBDF).withValues(alpha: 0.4),
+                    ),
+                    label: const Text('Undo'),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
             padding: const EdgeInsets.all(16.0),
             child: Container(
+              clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(
                 color: const Color(0xFF1E2030),
-                border: Border.all(color: const Color(0xFF4A4F6B)),
-                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: const Color(0xFF4A4F6B), width: 1),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: Table(
-                border: TableBorder.all(
-                  color: const Color(0xFF4A4F6B),
-                  width: 0.5,
+                border: const TableBorder(
+                  horizontalInside: BorderSide(
+                    color: Color(0xFF4A4F6B),
+                    width: 0.5,
+                  ),
+                  verticalInside: BorderSide(
+                    color: Color(0xFF4A4F6B),
+                    width: 0.5,
+                  ),
                 ),
                 children: [
                   TableRow(
@@ -199,9 +257,16 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                           return GestureDetector(
                             behavior: HitTestBehavior.opaque,
                             onTap: () {
-                              _showPicker(context, cat, ['-', ...state.options[cat]!], (val) {
-                                notifier.updateAssignment(floor, cat, val);
-                              });
+                              if (_isHintActive) {
+                                notifier.applyHint(floor, cat);
+                                setState(() {
+                                  _isHintActive = false;
+                                });
+                              } else {
+                                _showPicker(context, cat, ['-', ...state.options[cat]!], (val) {
+                                  notifier.updateAssignment(floor, cat, val);
+                                });
+                              }
                             },
                             child: _Cell(text: value, isSelected: isSelected),
                           );

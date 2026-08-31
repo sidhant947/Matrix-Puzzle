@@ -94,6 +94,42 @@ class GameNotifier extends _$GameNotifier {
     }
   }
 
+  void applyHint(String floor, String category) {
+    if (state.isVictory || !state.canUseHint) return;
+    final value = state.actualSolution[floor]?[category];
+    if (value == null) return;
+
+    final previousSolution = Map<String, Map<String, String>>.from(
+      state.userSolution.map((k, v) => MapEntry(k, Map<String, String>.from(v)))
+    );
+
+    final newUserSolution = Map<String, Map<String, String>>.from(
+      state.userSolution.map((k, v) => MapEntry(k, Map<String, String>.from(v)))
+    );
+    for (var otherFloor in newUserSolution.keys) {
+      if (otherFloor != floor && newUserSolution[otherFloor]?[category] == value) {
+        newUserSolution[otherFloor]![category] = '-';
+      }
+    }
+    newUserSolution[floor]![category] = value;
+
+    _history.add(previousSolution);
+
+    final repo = ref.read(gameRepositoryProvider);
+    var updatedState = state.copyWith(
+      userSolution: newUserSolution,
+      hintsUsed: state.hintsUsed + 1,
+    );
+
+    state = updatedState;
+    repo.saveGame(state);
+
+    final settings = ref.read(settingsNotifierProvider);
+    if (settings.autoCheckSolution) {
+      checkSolution();
+    }
+  }
+
   void undo() {
     if (state.isVictory || _history.isEmpty) return;
 

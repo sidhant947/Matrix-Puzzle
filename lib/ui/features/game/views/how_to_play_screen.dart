@@ -25,12 +25,12 @@ class HowToPlayScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              "Matrix Puzzle is a logic puzzle where you must determine which person lives on each floor of a building. You are given clues about Names, Nationalities, and Professions. Each floor has exactly one person. Your goal is to match all people to their correct floors.",
+              "Matrix Puzzle is a deductive logic puzzle where you determine which resident lives on each floor of a building. Each puzzle features dynamic themes with different categories (such as Names, Pets, Hobbies, Drinks, Professions, Vehicles, Colors, Instruments, and Nationalities). Every floor has exactly one resident with one item from each category. Your goal is to deduce the full solution using the clues.",
               style: theme.textTheme.bodyMedium?.copyWith(height: 1.4, color: const Color(0xFFFFFFFF)),
             ),
             const SizedBox(height: 32),
             Text(
-              "How to Solve",
+              "Clue Types & Meanings",
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF4FFBDF),
@@ -39,56 +39,71 @@ class HowToPlayScreen extends StatelessWidget {
             const Divider(color: Color(0xFF4A4F6B)),
             const SizedBox(height: 16),
             _ClueSection(
-              title: "1. Direct Clues",
-              description: "These tell you exactly which floor someone lives on.",
+              title: "1. Direct & Parity Clues",
+              description: "These identify exact floor positions or numerical properties.",
               examples: const [
                 _ExampleItem(
-                  clue: "James lives on the 1st floor.",
+                  clue: "James lives on the 1st floor (Ground floor).",
                   meaning: "James is on Floor 1. Tap the Name cell on Floor 1 and select 'James'.",
                 ),
                 _ExampleItem(
-                  clue: "The American person lives on the 3rd floor.",
-                  meaning: "The American person is on Floor 3.",
+                  clue: "The Doctor lives on an odd-numbered floor.",
+                  meaning: "The Doctor can only live on Floor 1, 3, 5, 7, etc.",
                 ),
               ],
             ),
             const SizedBox(height: 24),
             _ClueSection(
-              title: "2. Matching Clues",
-              description: "These link two characteristics to the same person.",
+              title: "2. Association & Negative Clues",
+              description: "These link or separate two characteristics belonging to residents.",
               examples: const [
                 _ExampleItem(
-                  clue: "Maria is Brazilian.",
-                  meaning: "Maria is Brazilian. Both go on the same floor.",
+                  clue: "Maria has a Cat.",
+                  meaning: "Maria and Cat belong on the same floor.",
                 ),
                 _ExampleItem(
-                  clue: "Chen is an Engineer.",
-                  meaning: "Chen works as an Engineer.",
+                  clue: "Chen does not drink Coffee.",
+                  meaning: "Chen and Coffee cannot be on the same floor.",
                 ),
               ],
             ),
             const SizedBox(height: 24),
             _ClueSection(
-              title: "3. Vertical Clues",
-              description: "These describe vertical relationships between floors.",
+              title: "3. Neighbor & Relative Position",
+              description: "These describe vertical positioning relationships between residents.",
               examples: const [
                 _ExampleItem(
                   clue: "Yuki lives directly above Ahmed.",
-                  meaning: "Yuki is on the immediate floor above Ahmed (Floor X+1).",
+                  meaning: "Yuki is on the immediate floor above Ahmed (Floor X + 1).",
                 ),
                 _ExampleItem(
-                  clue: "Sofia lives somewhere below Dmitri.",
-                  meaning: "Sofia is on a lower floor than Dmitri (Floor < X).",
+                  clue: "Sofia lives on a floor adjacent to Dmitri.",
+                  meaning: "Sofia lives either directly above or directly below Dmitri (|Floor A - Floor B| = 1).",
                 ),
                 _ExampleItem(
                   clue: "The Pilot lives somewhere above the Chef.",
-                  meaning: "The Pilot is on a higher floor than the Chef (Floor > X).",
+                  meaning: "The Pilot lives on any higher floor than the Chef (Floor > X).",
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            _ClueSection(
+              title: "4. Distance & Betweenness Clues",
+              description: "Advanced clues that specify relative gaps and sandwich arrangements.",
+              examples: const [
+                _ExampleItem(
+                  clue: "Elena lives exactly 2 floors above Priya.",
+                  meaning: "Elena's floor is exactly Priya's floor + 2 (e.g., Floors 1 and 3, or Floors 3 and 5).",
+                ),
+                _ExampleItem(
+                  clue: "Chen lives on a floor between Maria and the Architect.",
+                  meaning: "Chen's floor is strictly between Maria's floor and the Architect's floor.",
                 ),
               ],
             ),
             const SizedBox(height: 32),
             Text(
-              "Tips",
+              "Tools & Controls",
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF4FFBDF),
@@ -96,9 +111,27 @@ class HowToPlayScreen extends StatelessWidget {
             ),
             const Divider(color: Color(0xFF4A4F6B)),
             const SizedBox(height: 16),
-            Text(
-              "Start with direct clues to anchor known values. Then use matching clues to fill in same-floor pairs. Finally, use vertical clues to connect the remaining floors. Tap crossed clues to mark them as used.",
-              style: theme.textTheme.bodyMedium?.copyWith(height: 1.4, color: const Color(0xFFFFFFFF)),
+            _ClueSection(
+              title: "Helpful Features",
+              description: "Use these in-game tools to assist your deductions:",
+              examples: const [
+                _ExampleItem(
+                  clue: "Hint Button (Above Grid)",
+                  meaning: "Tap Hint and then tap any cell on the grid to reveal the correct value. You get 1 hint for 3-4 floor puzzles and 2 hints for 5+ floor puzzles.",
+                ),
+                _ExampleItem(
+                  clue: "Undo Button (Above Grid)",
+                  meaning: "Tap Undo to revert your last cell placement or hint action.",
+                ),
+                _ExampleItem(
+                  clue: "Cross Out Clues",
+                  meaning: "Tap any clue in the clue list to cross it out once you have applied its deduction.",
+                ),
+                _ExampleItem(
+                  clue: "Notes FAB (Bottom Right)",
+                  meaning: "Tap the floating notes button to write down your own scratchpad deductions.",
+                ),
+              ],
             ),
             const SizedBox(height: 24),
           ],
