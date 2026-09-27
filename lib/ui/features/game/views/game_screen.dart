@@ -77,6 +77,155 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           ]
         : state.clues;
 
+    final gridWidget = Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Container(
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(
+          color: const Color(0xFF1E2030),
+          border: Border.all(color: const Color(0xFF4A4F6B), width: 1),
+        ),
+        child: Table(
+          border: const TableBorder(
+            horizontalInside: BorderSide(
+              color: Color(0xFF4A4F6B),
+              width: 0.5,
+            ),
+            verticalInside: BorderSide(
+              color: Color(0xFF4A4F6B),
+              width: 0.5,
+            ),
+          ),
+          children: [
+            TableRow(
+              children: [
+                _Cell(text: 'Floor', isHeader: true),
+                ...categories.map((cat) => _Cell(text: cat, isHeader: true)),
+              ],
+            ),
+            ...floors.reversed.map((floor) {
+              return TableRow(
+                children: [
+                  _Cell(text: _floorLabel(floor, floors.length), isHeader: true),
+                  ...categories.map((cat) {
+                    final value = state.userSolution[floor]![cat] ?? '-';
+                    final isSelected = value != '-';
+                    return GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        if (_isHintActive) {
+                          notifier.applyHint(floor, cat);
+                          setState(() {
+                            _isHintActive = false;
+                          });
+                        } else {
+                          _showPicker(context, cat, ['-', ...state.options[cat]!], (val) {
+                            notifier.updateAssignment(floor, cat, val);
+                          });
+                        }
+                      },
+                      child: _Cell(text: value, isSelected: isSelected),
+                    );
+                  }),
+                ],
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+
+    final cluesOrNotesWidget = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: _showNotes
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  "NOTES",
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.0,
+                    color: const Color(0xFF4FFBDF),
+                  ),
+                ),
+                const Divider(color: Color(0xFF4A4F6B)),
+                TextField(
+                  controller: _notesController,
+                  maxLines: null,
+                  keyboardType: TextInputType.multiline,
+                  onChanged: (text) {
+                    notifier.updateNotes(text);
+                  },
+                  style: const TextStyle(
+                    color: Color(0xFFFFFFFF),
+                    fontSize: 14,
+                    height: 1.4,
+                  ),
+                  decoration: InputDecoration(
+                    hintText: 'Write your notes or deductions here...',
+                    hintStyle: TextStyle(
+                      color: const Color(0xFFFFFFFF).withValues(alpha: 0.4),
+                      fontSize: 14,
+                    ),
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
+                  ),
+                ),
+                const SizedBox(height: 80),
+              ],
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  "CLUES",
+                  style: theme.textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.0,
+                    color: const Color(0xFF4FFBDF),
+                  ),
+                ),
+                const Divider(color: Color(0xFF4A4F6B)),
+                ...displayedClues.map((clue) {
+                  final isCrossed = state.crossedClues.contains(clue);
+                  return InkWell(
+                    onTap: () {
+                      notifier.toggleClueCrossed(clue);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 6.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "• ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: isCrossed ? const Color(0xFF4A4F6B) : const Color(0xFFFFFFFF),
+                            ),
+                          ),
+                          Expanded(
+                            child: Text(
+                              clue,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                decoration: isCrossed ? TextDecoration.lineThrough : null,
+                                color: isCrossed ? const Color(0xFF4A4F6B) : const Color(0xFFFFFFFF),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+                const SizedBox(height: 80),
+              ],
+            ),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -220,156 +369,26 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Container(
-              clipBehavior: Clip.antiAlias,
-              decoration: BoxDecoration(
-                color: const Color(0xFF1E2030),
-                border: Border.all(color: const Color(0xFF4A4F6B), width: 1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Table(
-                border: const TableBorder(
-                  horizontalInside: BorderSide(
-                    color: Color(0xFF4A4F6B),
-                    width: 0.5,
-                  ),
-                  verticalInside: BorderSide(
-                    color: Color(0xFF4A4F6B),
-                    width: 0.5,
-                  ),
+          if (floors.length > 7)
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    gridWidget,
+                    cluesOrNotesWidget,
+                  ],
                 ),
-                children: [
-                  TableRow(
-                    children: [
-                      _Cell(text: 'Floor', isHeader: true),
-                      ...categories.map((cat) => _Cell(text: cat, isHeader: true)),
-                    ],
-                  ),
-                  ...floors.reversed.map((floor) {
-                    return TableRow(
-                      children: [
-                        _Cell(text: _floorLabel(floor, floors.length), isHeader: true),
-                        ...categories.map((cat) {
-                          final value = state.userSolution[floor]![cat] ?? '-';
-                          final isSelected = value != '-';
-                          return GestureDetector(
-                            behavior: HitTestBehavior.opaque,
-                            onTap: () {
-                              if (_isHintActive) {
-                                notifier.applyHint(floor, cat);
-                                setState(() {
-                                  _isHintActive = false;
-                                });
-                              } else {
-                                _showPicker(context, cat, ['-', ...state.options[cat]!], (val) {
-                                  notifier.updateAssignment(floor, cat, val);
-                                });
-                              }
-                            },
-                            child: _Cell(text: value, isSelected: isSelected),
-                          );
-                        }),
-                      ],
-                    );
-                  }),
-                ],
+              ),
+            )
+          else ...[
+            gridWidget,
+            Expanded(
+              child: SingleChildScrollView(
+                child: cluesOrNotesWidget,
               ),
             ),
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: _showNotes
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          "NOTES",
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.0,
-                            color: const Color(0xFF4FFBDF),
-                          ),
-                        ),
-                        const Divider(color: Color(0xFF4A4F6B)),
-                        TextField(
-                          controller: _notesController,
-                          maxLines: null,
-                          keyboardType: TextInputType.multiline,
-                          onChanged: (text) {
-                            notifier.updateNotes(text);
-                          },
-                          style: const TextStyle(
-                            color: Color(0xFFFFFFFF),
-                            fontSize: 14,
-                            height: 1.4,
-                          ),
-                          decoration: InputDecoration(
-                            hintText: 'Write your notes or deductions here...',
-                            hintStyle: TextStyle(
-                              color: const Color(0xFFFFFFFF).withValues(alpha: 0.4),
-                              fontSize: 14,
-                            ),
-                            border: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
-                          ),
-                        ),
-                        const SizedBox(height: 80),
-                      ],
-                    )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          "CLUES",
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1.0,
-                            color: const Color(0xFF4FFBDF),
-                          ),
-                        ),
-                        const Divider(color: Color(0xFF4A4F6B)),
-                        ...displayedClues.map((clue) {
-                          final isCrossed = state.crossedClues.contains(clue);
-                          return InkWell(
-                            onTap: () {
-                              notifier.toggleClueCrossed(clue);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 6.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "• ",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: isCrossed ? const Color(0xFF4A4F6B) : const Color(0xFFFFFFFF),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      clue,
-                                      style: theme.textTheme.bodyMedium?.copyWith(
-                                        decoration: isCrossed ? TextDecoration.lineThrough : null,
-                                        color: isCrossed ? const Color(0xFF4A4F6B) : const Color(0xFFFFFFFF),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          );
-                        }),
-                        const SizedBox(height: 80),
-                      ],
-                    ),
-            ),
-          ),
+          ],
         ],
       ),
     );

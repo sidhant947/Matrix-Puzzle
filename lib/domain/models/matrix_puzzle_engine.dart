@@ -8,7 +8,10 @@ class MatrixPuzzleEngine {
   final Random _random = Random();
 
   static const Map<String, List<String>> _categoryPool = {
-    'Name': ['James', 'Maria', 'Chen', 'Yuki', 'Ahmed', 'Sofia', 'Dmitri', 'Priya', 'Omar', 'Elena'],
+    'Name': [
+      'James', 'Maria', 'Priya', 'Chen', 'Elena', 'Sofia', 'Ahmed', 'Dmitri', 'Yuki', 'Omar',
+      'Fatima', 'Aisha', 'Mei', 'Chloe', 'Zara', 'Lucia', 'Amara', 'Ingrid', 'Ananya', 'Leila',
+    ],
     'Profession': ['Doctor', 'Engineer', 'Teacher', 'Artist', 'Lawyer', 'Pilot', 'Chef', 'Nurse', 'Architect', 'Musician'],
     'Pet': ['Cat', 'Dog', 'Parrot', 'Hamster', 'Turtle', 'Rabbit', 'Iguana', 'Ferret', 'Fish', 'Hedgehog'],
     'Hobby': ['Gardening', 'Photography', 'Chess', 'Painting', 'Baking', 'Astronomy', 'Gaming', 'Hiking', 'Yoga', 'Origami'],
@@ -50,7 +53,7 @@ class MatrixPuzzleEngine {
 
     final subItems = <String, List<String>>{};
     for (final cat in activeCategories) {
-      final items = _categoryPool[cat]!.sublist(0, count);
+      final items = (List<String>.from(_categoryPool[cat]!)..shuffle(rand)).sublist(0, count);
       subItems[cat] = items;
       options[cat] = List<String>.from(items)..shuffle(rand);
     }
