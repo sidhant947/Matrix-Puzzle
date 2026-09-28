@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 import '../view_models/game_provider.dart';
 import 'game_screen.dart';
+import 'package:matrixpuzzle/l10n/app_localizations.dart';
 
 class DailyChallengeScreen extends ConsumerWidget {
   const DailyChallengeScreen({super.key});
@@ -11,19 +13,20 @@ class DailyChallengeScreen extends ConsumerWidget {
     return "${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}";
   }
 
-  String _getFormattedDate(String dateStr) {
-    final parts = dateStr.split('-');
-    if (parts.length != 3) return dateStr;
-    final year = parts[0];
-    final month = int.tryParse(parts[1]) ?? 1;
-    final day = parts[2];
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return "${months[month - 1]} $day, $year";
+  String _getFormattedDate(BuildContext context, String dateStr) {
+    try {
+      final dateTime = DateTime.parse(dateStr);
+      final locale = Localizations.localeOf(context).toString();
+      return DateFormat.yMMMMd(locale).format(dateTime);
+    } catch (_) {
+      return dateStr;
+    }
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final progress = ref.watch(userProgressProvider);
     final completedDailies = progress['completedDailies'] as List<String>? ?? [];
     final todayStr = _getTodayDateString();
@@ -31,7 +34,7 @@ class DailyChallengeScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Daily Challenge'),
+        title: Text(l10n.dailyChallenge),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24),
@@ -46,15 +49,15 @@ class DailyChallengeScreen extends ConsumerWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              _getFormattedDate(todayStr),
+              _getFormattedDate(context, todayStr),
               textAlign: TextAlign.center,
               style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
             Text(
               isDailyCompleted
-                  ? "You solved today's challenge! Come back tomorrow for a new one."
-                  : "Solve today's puzzle. Same grid and clues for all players today.",
+                  ? l10n.dailyCompletedMessage
+                  : l10n.dailyInstructionMessage,
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurface.withValues(alpha: 0.6)),
             ),
@@ -67,7 +70,7 @@ class DailyChallengeScreen extends ConsumerWidget {
                 );
               },
               icon: Icon(isDailyCompleted ? Icons.replay : Icons.play_arrow),
-              label: Text(isDailyCompleted ? 'Replay Challenge' : 'Play Today\'s Riddle'),
+              label: Text(isDailyCompleted ? l10n.replayChallenge : l10n.playTodayRiddle),
             ),
           ],
         ),

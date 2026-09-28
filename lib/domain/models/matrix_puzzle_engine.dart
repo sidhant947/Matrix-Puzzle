@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:math';
 import 'package:hive/hive.dart';
+import '../../l10n/app_localizations.dart';
 
 part 'matrix_puzzle_engine.g.dart';
 
@@ -309,9 +311,123 @@ class MatrixPuzzleEngine {
       }
     }
 
-    final formattedClues = selectedClues.map((c) => c.toText(floorsCount)).toSet().toList();
+    final formattedClues = selectedClues.map((c) => c.toJsonString(floorsCount)).toSet().toList();
     formattedClues.shuffle(rand);
     return formattedClues;
+  }
+
+  static String formatClue(String clue, AppLocalizations l10n) {
+    final constraint = _ClueConstraint.fromJsonString(clue);
+    if (constraint != null) {
+      return constraint.toLocalizedText(l10n);
+    }
+    return clue;
+  }
+
+  static String localizeItem(AppLocalizations l10n, String item) {
+    switch (item) {
+      case 'James': return l10n.itemJames;
+      case 'Maria': return l10n.itemMaria;
+      case 'Priya': return l10n.itemPriya;
+      case 'Chen': return l10n.itemChen;
+      case 'Elena': return l10n.itemElena;
+      case 'Sofia': return l10n.itemSofia;
+      case 'Ahmed': return l10n.itemAhmed;
+      case 'Dmitri': return l10n.itemDmitri;
+      case 'Yuki': return l10n.itemYuki;
+      case 'Omar': return l10n.itemOmar;
+      case 'Fatima': return l10n.itemFatima;
+      case 'Aisha': return l10n.itemAisha;
+      case 'Mei': return l10n.itemMei;
+      case 'Chloe': return l10n.itemChloe;
+      case 'Zara': return l10n.itemZara;
+      case 'Lucia': return l10n.itemLucia;
+      case 'Amara': return l10n.itemAmara;
+      case 'Ingrid': return l10n.itemIngrid;
+      case 'Ananya': return l10n.itemAnanya;
+      case 'Leila': return l10n.itemLeila;
+      case 'Doctor': return l10n.itemDoctor;
+      case 'Engineer': return l10n.itemEngineer;
+      case 'Teacher': return l10n.itemTeacher;
+      case 'Artist': return l10n.itemArtist;
+      case 'Lawyer': return l10n.itemLawyer;
+      case 'Pilot': return l10n.itemPilot;
+      case 'Chef': return l10n.itemChef;
+      case 'Nurse': return l10n.itemNurse;
+      case 'Architect': return l10n.itemArchitect;
+      case 'Musician': return l10n.itemMusician;
+      case 'Cat': return l10n.itemCat;
+      case 'Dog': return l10n.itemDog;
+      case 'Parrot': return l10n.itemParrot;
+      case 'Hamster': return l10n.itemHamster;
+      case 'Turtle': return l10n.itemTurtle;
+      case 'Rabbit': return l10n.itemRabbit;
+      case 'Iguana': return l10n.itemIguana;
+      case 'Ferret': return l10n.itemFerret;
+      case 'Fish': return l10n.itemFish;
+      case 'Hedgehog': return l10n.itemHedgehog;
+      case 'Gardening': return l10n.itemGardening;
+      case 'Photography': return l10n.itemPhotography;
+      case 'Chess': return l10n.itemChess;
+      case 'Painting': return l10n.itemPainting;
+      case 'Baking': return l10n.itemBaking;
+      case 'Astronomy': return l10n.itemAstronomy;
+      case 'Gaming': return l10n.itemGaming;
+      case 'Hiking': return l10n.itemHiking;
+      case 'Yoga': return l10n.itemYoga;
+      case 'Origami': return l10n.itemOrigami;
+      case 'Espresso': return l10n.itemEspresso;
+      case 'Green Tea': return l10n.itemGreenTea;
+      case 'Cocoa': return l10n.itemCocoa;
+      case 'Lemonade': return l10n.itemLemonade;
+      case 'Boba': return l10n.itemBoba;
+      case 'Cappuccino': return l10n.itemCappuccino;
+      case 'Smoothie': return l10n.itemSmoothie;
+      case 'Chai': return l10n.itemChai;
+      case 'Milkshake': return l10n.itemMilkshake;
+      case 'Iced Coffee': return l10n.itemIcedCoffee;
+      case 'Crimson': return l10n.itemCrimson;
+      case 'Sapphire': return l10n.itemSapphire;
+      case 'Emerald': return l10n.itemEmerald;
+      case 'Amber': return l10n.itemAmber;
+      case 'Violet': return l10n.itemViolet;
+      case 'Coral': return l10n.itemCoral;
+      case 'Teal': return l10n.itemTeal;
+      case 'Gold': return l10n.itemGold;
+      case 'Lavender': return l10n.itemLavender;
+      case 'Turquoise': return l10n.itemTurquoise;
+      case 'Bicycle': return l10n.itemBicycle;
+      case 'Scooter': return l10n.itemScooter;
+      case 'Electric Car': return l10n.itemElectricCar;
+      case 'Vintage Car': return l10n.itemVintageCar;
+      case 'Motorcycle': return l10n.itemMotorcycle;
+      case 'Skateboard': return l10n.itemSkateboard;
+      case 'Unicycle': return l10n.itemUnicycle;
+      case 'Segway': return l10n.itemSegway;
+      case 'Rollerblades': return l10n.itemRollerblades;
+      case 'Moped': return l10n.itemMoped;
+      case 'Piano': return l10n.itemPiano;
+      case 'Guitar': return l10n.itemGuitar;
+      case 'Violin': return l10n.itemViolin;
+      case 'Drums': return l10n.itemDrums;
+      case 'Flute': return l10n.itemFlute;
+      case 'Saxophone': return l10n.itemSaxophone;
+      case 'Cello': return l10n.itemCello;
+      case 'Trumpet': return l10n.itemTrumpet;
+      case 'Harp': return l10n.itemHarp;
+      case 'Clarinet': return l10n.itemClarinet;
+      case 'American': return l10n.itemAmerican;
+      case 'Brazilian': return l10n.itemBrazilian;
+      case 'Chinese': return l10n.itemChinese;
+      case 'Japanese': return l10n.itemJapanese;
+      case 'Egyptian': return l10n.itemEgyptian;
+      case 'Spanish': return l10n.itemSpanish;
+      case 'Russian': return l10n.itemRussian;
+      case 'Indian': return l10n.itemIndian;
+      case 'Moroccan': return l10n.itemMoroccan;
+      case 'Italian': return l10n.itemItalian;
+      default: return item;
+    }
   }
 
   bool checkVictory(Map<String, Map<String, String>> userSolution, Map<String, Map<String, String>> actualSolution) {
@@ -350,6 +466,7 @@ class _ClueConstraint {
   final int? floor;
   final int? distance;
   final bool? isOdd;
+  final int? floorsCount;
 
   _ClueConstraint({
     required this.type,
@@ -362,7 +479,163 @@ class _ClueConstraint {
     this.floor,
     this.distance,
     this.isOdd,
+    this.floorsCount,
   });
+
+  String toJsonString(int count) {
+    final map = <String, dynamic>{
+      'type': type.name,
+      'cat1': cat1,
+      'val1': val1,
+      'floorsCount': count,
+    };
+    if (cat2 != null) map['cat2'] = cat2;
+    if (val2 != null) map['val2'] = val2;
+    if (cat3 != null) map['cat3'] = cat3;
+    if (val3 != null) map['val3'] = val3;
+    if (floor != null) map['floor'] = floor;
+    if (distance != null) map['distance'] = distance;
+    if (isOdd != null) map['isOdd'] = isOdd;
+    return jsonEncode(map);
+  }
+
+  static _ClueConstraint? fromJsonString(String raw) {
+    if (!raw.startsWith('{')) return null;
+    try {
+      final map = jsonDecode(raw);
+      if (map is! Map<String, dynamic>) return null;
+      final typeStr = map['type'] as String?;
+      if (typeStr == null) return null;
+      final kind = _ClueKind.values.firstWhere((e) => e.name == typeStr);
+      return _ClueConstraint(
+        type: kind,
+        cat1: map['cat1'] as String,
+        val1: map['val1'] as String,
+        cat2: map['cat2'] as String?,
+        val2: map['val2'] as String?,
+        cat3: map['cat3'] as String?,
+        val3: map['val3'] as String?,
+        floor: map['floor'] as int?,
+        distance: map['distance'] as int?,
+        isOdd: map['isOdd'] as bool?,
+        floorsCount: map['floorsCount'] as int?,
+      );
+    } catch (_) {
+      return null;
+    }
+  }
+
+  String toLocalizedText(AppLocalizations l10n) {
+    final subj1 = _localizedSubject(cat1, val1, true, l10n);
+
+    switch (type) {
+      case _ClueKind.fixedFloor:
+        final floorNum = floor! + 1;
+        if (floorNum == 1) {
+          return l10n.clueFixedFloorGround(subj1);
+        } else if (floorsCount != null && floorNum == floorsCount) {
+          return l10n.clueFixedFloorTop(subj1, _ordinal(floorNum));
+        } else {
+          return l10n.clueFixedFloor(subj1, _ordinal(floorNum));
+        }
+
+      case _ClueKind.parityFloor:
+        return isOdd! ? l10n.clueParityOdd(subj1) : l10n.clueParityEven(subj1);
+
+      case _ClueKind.sameFloor:
+        return _formatLocalizedSameFloor(cat1, val1, cat2!, val2!, l10n);
+
+      case _ClueKind.negativeSameFloor:
+        return _formatLocalizedNegativeSameFloor(cat1, val1, cat2!, val2!, l10n);
+
+      case _ClueKind.immediateAbove:
+        final obj2 = _localizedSubject(cat2!, val2!, false, l10n);
+        return l10n.clueImmediateAbove(subj1, obj2);
+
+      case _ClueKind.somewhereAbove:
+        final obj2 = _localizedSubject(cat2!, val2!, false, l10n);
+        return l10n.clueSomewhereAbove(subj1, obj2);
+
+      case _ClueKind.adjacentFloor:
+        final obj2 = _localizedSubject(cat2!, val2!, false, l10n);
+        return l10n.clueAdjacent(subj1, obj2);
+
+      case _ClueKind.distanceAbove:
+        final obj2 = _localizedSubject(cat2!, val2!, false, l10n);
+        return l10n.clueDistanceAbove(subj1, obj2, distance!);
+
+      case _ClueKind.betweenFloors:
+        final obj2 = _localizedSubject(cat2!, val2!, false, l10n);
+        final obj3 = _localizedSubject(cat3!, val3!, false, l10n);
+        return l10n.clueBetween(subj1, obj2, obj3);
+    }
+  }
+
+  static String _formatLocalizedSameFloor(String c1, String v1, String c2, String v2, AppLocalizations l10n) {
+    if (c1 == 'Name') {
+      final locV1 = MatrixPuzzleEngine.localizeItem(l10n, v1);
+      final locV2 = MatrixPuzzleEngine.localizeItem(l10n, v2);
+      final article = _article(locV2);
+      if (c2 == 'Pet') return l10n.clueSameFloorPet(locV1, article, locV2);
+      if (c2 == 'Hobby') return l10n.clueSameFloorHobby(locV1, locV2);
+      if (c2 == 'Drink') return l10n.clueSameFloorDrink(locV1, locV2);
+      if (c2 == 'Vehicle') return l10n.clueSameFloorVehicle(locV1, article, locV2);
+      if (c2 == 'Instrument') return l10n.clueSameFloorInstrument(locV1, locV2);
+      if (c2 == 'Color') return l10n.clueSameFloorColor(locV1, article, locV2);
+      if (c2 == 'Profession') return l10n.clueSameFloorProfession(locV1, article, locV2);
+      if (c2 == 'Nationality') return l10n.clueSameFloorNationality(locV1, locV2);
+    }
+    final subj = _localizedSubject(c1, v1, true, l10n);
+    final obj = _localizedSubject(c2, v2, false, l10n);
+    return l10n.clueSameFloorGeneric(subj, obj);
+  }
+
+  static String _formatLocalizedNegativeSameFloor(String c1, String v1, String c2, String v2, AppLocalizations l10n) {
+    if (c1 == 'Name') {
+      final locV1 = MatrixPuzzleEngine.localizeItem(l10n, v1);
+      final locV2 = MatrixPuzzleEngine.localizeItem(l10n, v2);
+      final article = _article(locV2);
+      if (c2 == 'Pet') return l10n.clueNegativeFloorPet(locV1, article, locV2);
+      if (c2 == 'Hobby') return l10n.clueNegativeFloorHobby(locV1, locV2);
+      if (c2 == 'Drink') return l10n.clueNegativeFloorDrink(locV1, locV2);
+      if (c2 == 'Vehicle') return l10n.clueNegativeFloorVehicle(locV1, article, locV2);
+      if (c2 == 'Instrument') return l10n.clueNegativeFloorInstrument(locV1, locV2);
+      if (c2 == 'Color') return l10n.clueNegativeFloorColor(locV1, article, locV2);
+      if (c2 == 'Profession') return l10n.clueNegativeFloorProfession(locV1, article, locV2);
+      if (c2 == 'Nationality') return l10n.clueNegativeFloorNationality(locV1, locV2);
+    }
+    final subj = _localizedSubject(c1, v1, true, l10n);
+    final obj = _localizedSubject(c2, v2, false, l10n);
+    return l10n.clueNegativeFloorGeneric(subj, obj);
+  }
+
+  static String _localizedSubject(String cat, String val, bool capitalize, AppLocalizations l10n) {
+    final locVal = MatrixPuzzleEngine.localizeItem(l10n, val);
+    if (cat == 'Name') return locVal;
+    final article = _article(locVal);
+    if (cat == 'Nationality') {
+      return capitalize ? l10n.clueSubjectNationalityCap(locVal) : l10n.clueSubjectNationalityLow(locVal);
+    }
+    if (cat == 'Pet') {
+      return capitalize ? l10n.clueSubjectPetCap(article, locVal) : l10n.clueSubjectPetLow(article, locVal);
+    }
+    if (cat == 'Hobby') {
+      return capitalize ? l10n.clueSubjectHobbyCap(locVal) : l10n.clueSubjectHobbyLow(locVal);
+    }
+    if (cat == 'Drink') {
+      return capitalize ? l10n.clueSubjectDrinkCap(locVal) : l10n.clueSubjectDrinkLow(locVal);
+    }
+    if (cat == 'Vehicle') {
+      return capitalize ? l10n.clueSubjectVehicleCap(article, locVal) : l10n.clueSubjectVehicleLow(article, locVal);
+    }
+    if (cat == 'Instrument') {
+      return capitalize ? l10n.clueSubjectInstrumentCap(locVal) : l10n.clueSubjectInstrumentLow(locVal);
+    }
+    if (cat == 'Color') {
+      return capitalize ? l10n.clueSubjectColorCap(locVal) : l10n.clueSubjectColorLow(locVal);
+    }
+    return capitalize ? l10n.clueSubjectGenericCap(locVal) : l10n.clueSubjectGenericLow(locVal);
+  }
 
   String toText(int floorsCount) {
     final subj1 = _subject(cat1, val1, capitalize: true);

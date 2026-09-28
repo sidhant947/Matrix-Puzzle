@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:matrixpuzzle/l10n/app_localizations.dart';
 
 class HowToPlayScreen extends StatelessWidget {
   const HowToPlayScreen({super.key});
@@ -6,10 +7,11 @@ class HowToPlayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('How To Play'),
+        title: Text(l10n.howToPlay),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -17,7 +19,7 @@ class HowToPlayScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              "Objective",
+              l10n.objectiveTitle,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF4FFBDF),
@@ -25,12 +27,12 @@ class HowToPlayScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              "Matrix Puzzle is a deductive logic puzzle where you determine which resident lives on each floor of a building. Each puzzle features dynamic themes with different categories (such as Names, Pets, Hobbies, Drinks, Professions, Vehicles, Colors, Instruments, and Nationalities). Every floor has exactly one resident with one item from each category. Your goal is to deduce the full solution using the clues.",
+              l10n.objectiveDescription,
               style: theme.textTheme.bodyMedium?.copyWith(height: 1.4, color: const Color(0xFFFFFFFF)),
             ),
             const SizedBox(height: 32),
             Text(
-              "Clue Types & Meanings",
+              l10n.clueTypesTitle,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF4FFBDF),
@@ -39,71 +41,71 @@ class HowToPlayScreen extends StatelessWidget {
             const Divider(color: Color(0xFF4A4F6B)),
             const SizedBox(height: 16),
             _ClueSection(
-              title: "1. Direct & Parity Clues",
-              description: "These identify exact floor positions or numerical properties.",
-              examples: const [
+              title: l10n.clueSectionDirectTitle,
+              description: l10n.clueSectionDirectDesc,
+              examples: [
                 _ExampleItem(
-                  clue: "James lives on the 1st floor (Ground floor).",
-                  meaning: "James is on Floor 1. Tap the Name cell on Floor 1 and select 'James'.",
+                  clue: l10n.exampleDirectClue1,
+                  meaning: l10n.exampleDirectMeaning1,
                 ),
                 _ExampleItem(
-                  clue: "The Doctor lives on an odd-numbered floor.",
-                  meaning: "The Doctor can only live on Floor 1, 3, 5, 7, etc.",
-                ),
-              ],
-            ),
-            const SizedBox(height: 24),
-            _ClueSection(
-              title: "2. Association & Negative Clues",
-              description: "These link or separate two characteristics belonging to residents.",
-              examples: const [
-                _ExampleItem(
-                  clue: "Maria has a Cat.",
-                  meaning: "Maria and Cat belong on the same floor.",
-                ),
-                _ExampleItem(
-                  clue: "Chen does not drink Coffee.",
-                  meaning: "Chen and Coffee cannot be on the same floor.",
+                  clue: l10n.exampleDirectClue2,
+                  meaning: l10n.exampleDirectMeaning2,
                 ),
               ],
             ),
             const SizedBox(height: 24),
             _ClueSection(
-              title: "3. Neighbor & Relative Position",
-              description: "These describe vertical positioning relationships between residents.",
-              examples: const [
+              title: l10n.clueSectionAssociationTitle,
+              description: l10n.clueSectionAssociationDesc,
+              examples: [
                 _ExampleItem(
-                  clue: "Yuki lives directly above Ahmed.",
-                  meaning: "Yuki is on the immediate floor above Ahmed (Floor X + 1).",
+                  clue: l10n.exampleAssocClue1,
+                  meaning: l10n.exampleAssocMeaning1,
                 ),
                 _ExampleItem(
-                  clue: "Sofia lives on a floor adjacent to Dmitri.",
-                  meaning: "Sofia lives either directly above or directly below Dmitri (|Floor A - Floor B| = 1).",
-                ),
-                _ExampleItem(
-                  clue: "The Pilot lives somewhere above the Chef.",
-                  meaning: "The Pilot lives on any higher floor than the Chef (Floor > X).",
+                  clue: l10n.exampleAssocClue2,
+                  meaning: l10n.exampleAssocMeaning2,
                 ),
               ],
             ),
             const SizedBox(height: 24),
             _ClueSection(
-              title: "4. Distance & Betweenness Clues",
-              description: "Advanced clues that specify relative gaps and sandwich arrangements.",
-              examples: const [
+              title: l10n.clueSectionNeighborTitle,
+              description: l10n.clueSectionNeighborDesc,
+              examples: [
                 _ExampleItem(
-                  clue: "Elena lives exactly 2 floors above Priya.",
-                  meaning: "Elena's floor is exactly Priya's floor + 2 (e.g., Floors 1 and 3, or Floors 3 and 5).",
+                  clue: l10n.exampleNeighborClue1,
+                  meaning: l10n.exampleNeighborMeaning1,
                 ),
                 _ExampleItem(
-                  clue: "Chen lives on a floor between Maria and the Architect.",
-                  meaning: "Chen's floor is strictly between Maria's floor and the Architect's floor.",
+                  clue: l10n.exampleNeighborClue2,
+                  meaning: l10n.exampleNeighborMeaning2,
+                ),
+                _ExampleItem(
+                  clue: l10n.exampleNeighborClue3,
+                  meaning: l10n.exampleNeighborMeaning3,
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            _ClueSection(
+              title: l10n.clueSectionDistanceTitle,
+              description: l10n.clueSectionDistanceDesc,
+              examples: [
+                _ExampleItem(
+                  clue: l10n.exampleDistanceClue1,
+                  meaning: l10n.exampleDistanceMeaning1,
+                ),
+                _ExampleItem(
+                  clue: l10n.exampleDistanceClue2,
+                  meaning: l10n.exampleDistanceMeaning2,
                 ),
               ],
             ),
             const SizedBox(height: 32),
             Text(
-              "Tools & Controls",
+              l10n.toolsAndControlsTitle,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: const Color(0xFF4FFBDF),
@@ -112,24 +114,24 @@ class HowToPlayScreen extends StatelessWidget {
             const Divider(color: Color(0xFF4A4F6B)),
             const SizedBox(height: 16),
             _ClueSection(
-              title: "Helpful Features",
-              description: "Use these in-game tools to assist your deductions:",
-              examples: const [
+              title: l10n.helpfulFeaturesTitle,
+              description: l10n.helpfulFeaturesDesc,
+              examples: [
                 _ExampleItem(
-                  clue: "Hint Button (Above Grid)",
-                  meaning: "Tap Hint and then tap any cell on the grid to reveal the correct value. You get 1 hint for 3-4 floor puzzles and 2 hints for 5+ floor puzzles.",
+                  clue: l10n.toolHintTitle,
+                  meaning: l10n.toolHintDesc,
                 ),
                 _ExampleItem(
-                  clue: "Undo Button (Above Grid)",
-                  meaning: "Tap Undo to revert your last cell placement or hint action.",
+                  clue: l10n.toolUndoTitle,
+                  meaning: l10n.toolUndoDesc,
                 ),
                 _ExampleItem(
-                  clue: "Cross Out Clues",
-                  meaning: "Tap any clue in the clue list to cross it out once you have applied its deduction.",
+                  clue: l10n.toolCrossOutTitle,
+                  meaning: l10n.toolCrossOutDesc,
                 ),
                 _ExampleItem(
-                  clue: "Notes FAB (Bottom Right)",
-                  meaning: "Tap the floating notes button to write down your own scratchpad deductions.",
+                  clue: l10n.toolNotesTitle,
+                  meaning: l10n.toolNotesDesc,
                 ),
               ],
             ),

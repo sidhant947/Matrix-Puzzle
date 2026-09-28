@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../view_models/game_provider.dart';
 import 'game_screen.dart';
+import 'package:matrixpuzzle/l10n/app_localizations.dart';
 
 class PracticeScreen extends ConsumerStatefulWidget {
   const PracticeScreen({super.key});
@@ -16,10 +17,11 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Random Puzzle'),
+        title: Text(l10n.randomPuzzle),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -27,11 +29,11 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              "Customize Building Size",
+              l10n.customizeBuildingSize,
               style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 24),
-            Text("Floors: $_floorsCount"),
+            Text(l10n.floorsSliderLabel(_floorsCount)),
             Slider(
               value: _floorsCount.toDouble(),
               min: 3,
@@ -54,7 +56,7 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                   MaterialPageRoute(builder: (_) => const GameScreen()),
                 );
               },
-              child: const Text('Generate Practice Building'),
+              child: Text(l10n.generatePracticeBuilding),
             ),
           ],
         ),

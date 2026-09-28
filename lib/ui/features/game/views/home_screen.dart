@@ -6,6 +6,7 @@ import 'game_screen.dart';
 import 'levels_screen.dart';
 import 'how_to_play_screen.dart';
 import 'settings_screen.dart';
+import 'package:matrixpuzzle/l10n/app_localizations.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -21,32 +22,33 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   void _showDifficultyDialog(BuildContext context, WidgetRef ref) {
-    final tiers = {
-      'Easy': 3,
-      'Medium': 5,
-      'Hard': 7,
-      'Expert': 10,
-    };
+    final l10n = AppLocalizations.of(context)!;
+    final tiers = [
+      (l10n.difficultyEasy, 3),
+      (l10n.difficultyMedium, 5),
+      (l10n.difficultyHard, 7),
+      (l10n.difficultyExpert, 10),
+    ];
 
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('Select Difficulty'),
+          title: Text(l10n.selectDifficulty),
           content: Column(
             mainAxisSize: MainAxisSize.min,
-            children: tiers.entries.map((entry) {
+            children: tiers.map((entry) {
               return ListTile(
-                title: Text(entry.key),
+                title: Text(entry.$1),
                 subtitle: Text(
-                  '${entry.value} Floors',
+                  l10n.floorsCount(entry.$2),
                 ),
                 onTap: () {
                   Navigator.pop(context);
                   ref
                       .read(gameNotifierProvider.notifier)
                       .startPracticeGame(
-                        floorsCount: entry.value,
+                        floorsCount: entry.$2,
                       );
                   Navigator.of(
                     context,
@@ -62,6 +64,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final progress = ref.watch(userProgressProvider);
     final currentLevel = progress['currentLevel'] as int? ?? 1;
@@ -107,7 +110,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               const Spacer(),
               const SizedBox(height: 24),
               Text(
-                "Matrix Puzzle",
+                l10n.appTitle,
                 style: theme.textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.w900,
                   letterSpacing: -0.5,
@@ -115,7 +118,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
               const SizedBox(height: 8),
               Text(
-                "A Logic Puzzle in the Skyscraper",
+                l10n.appSubtitle,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
@@ -140,7 +143,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     style: FilledButton.styleFrom(
                       minimumSize: const Size.fromHeight(50),
                     ),
-                    child: const Text('Play'),
+                    child: Text(l10n.play),
                   ),
                   const SizedBox(height: 12),
                   OutlinedButton(
@@ -158,7 +161,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     style: OutlinedButton.styleFrom(
                       minimumSize: const Size.fromHeight(50),
                     ),
-                    child: const Text('Daily Challenge'),
+                    child: Text(l10n.dailyChallenge),
                   ),
                   const SizedBox(height: 12),
                   OutlinedButton(
@@ -170,7 +173,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     style: OutlinedButton.styleFrom(
                       minimumSize: const Size.fromHeight(50),
                     ),
-                    child: const Text('Levels'),
+                    child: Text(l10n.levels),
                   ),
                   const SizedBox(height: 12),
                   OutlinedButton(
@@ -178,7 +181,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     style: OutlinedButton.styleFrom(
                       minimumSize: const Size.fromHeight(50),
                     ),
-                    child: const Text('Random Puzzle'),
+                    child: Text(l10n.randomPuzzle),
                   ),
                   const SizedBox(height: 12),
                   OutlinedButton(
@@ -192,7 +195,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     style: OutlinedButton.styleFrom(
                       minimumSize: const Size.fromHeight(50),
                     ),
-                    child: const Text('How to Play'),
+                    child: Text(l10n.howToPlay),
                   ),
                   const SizedBox(height: 12),
                   OutlinedButton(
@@ -206,7 +209,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     style: OutlinedButton.styleFrom(
                       minimumSize: const Size.fromHeight(50),
                     ),
-                    child: const Text('Settings'),
+                    child: Text(l10n.settings),
                   ),
                 ],
               ),

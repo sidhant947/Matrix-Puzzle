@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../domain/models/game_state_model.dart';
+import '../../../../domain/models/matrix_puzzle_engine.dart';
 import '../view_models/game_provider.dart';
+import 'package:matrixpuzzle/l10n/app_localizations.dart';
 
 class GameScreen extends ConsumerStatefulWidget {
   const GameScreen({super.key});
@@ -49,6 +51,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     final settings = ref.watch(settingsNotifierProvider);
     final notifier = ref.read(gameNotifierProvider.notifier);
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     if (state.isLoading) {
       return const Scaffold(
@@ -61,13 +64,13 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     final floors = state.options['Floor']!;
     final categories = state.categories.where((c) => c != 'Floor').toList();
 
-    String titleText = 'Matrix Puzzle';
-    if (state.gameType == 'level') {
-      titleText = 'Level ${state.levelNumber}';
+    String titleText = l10n.appTitle;
+    if (state.gameType == 'level' && state.levelNumber != null) {
+      titleText = l10n.levelTitle(state.levelNumber!);
     } else if (state.gameType == 'daily') {
-      titleText = 'Daily Challenge';
+      titleText = l10n.dailyChallenge;
     } else if (state.gameType == 'practice') {
-      titleText = 'Practice Building';
+      titleText = l10n.practiceBuilding;
     }
 
     final displayedClues = settings.moveCrossedCluesToBottom
@@ -99,14 +102,14 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           children: [
             TableRow(
               children: [
-                _Cell(text: 'Floor', isHeader: true),
-                ...categories.map((cat) => _Cell(text: cat, isHeader: true)),
+                _Cell(text: l10n.floor, isHeader: true),
+                ...categories.map((cat) => _Cell(text: _categoryLabel(context, cat), isHeader: true)),
               ],
             ),
             ...floors.reversed.map((floor) {
               return TableRow(
                 children: [
-                  _Cell(text: _floorLabel(floor, floors.length), isHeader: true),
+                  _Cell(text: _floorLabel(context, floor, floors.length), isHeader: true),
                   ...categories.map((cat) {
                     final value = state.userSolution[floor]![cat] ?? '-';
                     final isSelected = value != '-';
@@ -119,12 +122,15 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                             _isHintActive = false;
                           });
                         } else {
-                          _showPicker(context, cat, ['-', ...state.options[cat]!], (val) {
+                          _showPicker(context, _categoryLabel(context, cat), ['-', ...state.options[cat]!], (val) {
                             notifier.updateAssignment(floor, cat, val);
                           });
                         }
                       },
-                      child: _Cell(text: value, isSelected: isSelected),
+                      child: _Cell(
+                        text: value == '-' ? '-' : MatrixPuzzleEngine.localizeItem(l10n, value),
+                        isSelected: isSelected,
+                      ),
                     );
                   }),
                 ],
@@ -142,7 +148,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  "NOTES",
+                  l10n.notes,
                   style: theme.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.0,
@@ -163,7 +169,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                     height: 1.4,
                   ),
                   decoration: InputDecoration(
-                    hintText: 'Write your notes or deductions here...',
+                    hintText: l10n.notesHint,
                     hintStyle: TextStyle(
                       color: const Color(0xFFFFFFFF).withValues(alpha: 0.4),
                       fontSize: 14,
@@ -181,7 +187,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  "CLUES",
+                  l10n.clues,
                   style: theme.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.bold,
                     letterSpacing: 1.0,
@@ -209,7 +215,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                           ),
                           Expanded(
                             child: Text(
-                              clue,
+                              MatrixPuzzleEngine.formatClue(clue, l10n),
                               style: theme.textTheme.bodyMedium?.copyWith(
                                 decoration: isCrossed ? TextDecoration.lineThrough : null,
                                 color: isCrossed ? const Color(0xFF4A4F6B) : const Color(0xFFFFFFFF),
@@ -246,38 +252,38 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 context: context,
                 builder: (dialogContext) => AlertDialog(
                   backgroundColor: const Color(0xFF12131C),
-                  title: const Text(
-                    'Reset Game',
-                    style: TextStyle(color: Color(0xFFE4EBE7)),
+                  title: Text(
+                    l10n.resetGame,
+                    style: const TextStyle(color: Color(0xFFE4EBE7)),
                   ),
-                  content: const Text(
-                    'Are you sure you want to reset the current game?',
-                    style: TextStyle(color: Color(0xFFE4EBE7)),
+                  content: Text(
+                    l10n.resetGameConfirmation,
+                    style: const TextStyle(color: Color(0xFFE4EBE7)),
                   ),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(dialogContext),
-                      child: const Text(
-                        'Cancel',
-                        style: TextStyle(color: Color(0xFFE4EBE7)),
+                      child: Text(
+                        l10n.cancel,
+                        style: const TextStyle(color: Color(0xFFE4EBE7)),
                       ),
                     ),
                     TextButton(
                       onPressed: () {
                         Navigator.pop(dialogContext);
                         if (state.gameType == 'level' && state.levelNumber != null) {
-                          notifier.startNewLevel(state.levelNumber!);
+                           notifier.startNewLevel(state.levelNumber!);
                         } else if (state.gameType == 'daily' && state.dailyDate != null) {
-                          notifier.startDailyChallenge(state.dailyDate!);
+                           notifier.startDailyChallenge(state.dailyDate!);
                         } else {
-                          notifier.startPracticeGame(
+                           notifier.startPracticeGame(
                             floorsCount: state.options['Floor']!.length,
                           );
                         }
                       },
-                      child: const Text(
-                        'Reset',
-                        style: TextStyle(color: Color(0xFFDCA134)),
+                      child: Text(
+                        l10n.reset,
+                        style: const TextStyle(color: Color(0xFFDCA134)),
                       ),
                     ),
                   ],
@@ -344,7 +350,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                               ? const Color(0xFF4FFBDF)
                               : const Color(0xFF4FFBDF).withValues(alpha: 0.4)),
                     ),
-                    label: Text(_isHintActive ? 'Tap a cell' : 'Hint'),
+                    label: Text(_isHintActive ? l10n.tapACell : l10n.hint),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -363,7 +369,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                       size: 20,
                       color: notifier.canUndo ? const Color(0xFF4FFBDF) : const Color(0xFF4FFBDF).withValues(alpha: 0.4),
                     ),
-                    label: const Text('Undo'),
+                    label: Text(l10n.undo),
                   ),
                 ),
               ],
@@ -394,14 +400,45 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     );
   }
 
-  String _floorLabel(String floorStr, int floorsCount) {
+  String _categoryLabel(BuildContext context, String cat) {
+    final l10n = AppLocalizations.of(context)!;
+    switch (cat) {
+      case 'Floor':
+        return l10n.floor;
+      case 'Name':
+        return l10n.categoryName;
+      case 'Profession':
+        return l10n.categoryProfession;
+      case 'Pet':
+        return l10n.categoryPet;
+      case 'Hobby':
+        return l10n.categoryHobby;
+      case 'Drink':
+        return l10n.categoryDrink;
+      case 'Color':
+        return l10n.categoryColor;
+      case 'Vehicle':
+        return l10n.categoryVehicle;
+      case 'Instrument':
+        return l10n.categoryInstrument;
+      case 'Nationality':
+        return l10n.categoryNationality;
+      default:
+        return cat;
+    }
+  }
+
+  String _floorLabel(BuildContext context, String floorStr, int floorsCount) {
     final floor = int.parse(floorStr);
-    if (floor == 1) return 'G';
-    if (floor == floorsCount) return 'T';
+    final l10n = AppLocalizations.of(context)!;
+    if (floor == 1) return l10n.floorGround;
+    if (floor == floorsCount) return l10n.floorTop;
     return '$floor';
   }
 
   Widget _buildVictoryOverlay(BuildContext context, GameStateModel state, GameNotifier notifier, ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: const BoxDecoration(
@@ -415,10 +452,10 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Congratulations! You solved the puzzle correctly!',
+            Text(
+              l10n.victoryMessage,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFFFFFFFF),
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
@@ -433,14 +470,14 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                     onPressed: () {
                       notifier.startNewLevel(state.levelNumber! + 1);
                     },
-                    child: const Text('Next Level'),
+                    child: Text(l10n.nextLevel),
                   )
                 else
                   FilledButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text('Main Menu'),
+                    child: Text(l10n.mainMenu),
                   ),
                 const SizedBox(height: 12),
                 OutlinedButton.icon(
@@ -453,9 +490,9 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                     }
                   },
                   icon: const Icon(Icons.coffee, size: 18, color: Color(0xFF4FFBDF)),
-                  label: const Text(
-                    'Buy me a coffee',
-                    style: TextStyle(color: Color(0xFFFFFFFF)),
+                  label: Text(
+                    l10n.buyMeACoffee,
+                    style: const TextStyle(color: Color(0xFFFFFFFF)),
                   ),
                 ),
               ],
@@ -467,6 +504,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   }
 
   Widget _buildCheckButton(BuildContext context, GameStateModel state, GameNotifier notifier, ThemeData theme) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: const BoxDecoration(
@@ -484,20 +523,20 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 context: context,
                 builder: (context) => AlertDialog(
                   backgroundColor: const Color(0xFF1E2030),
-                  title: const Text(
-                    'Incorrect Solution',
-                    style: TextStyle(color: Color(0xFFFFFFFF)),
+                  title: Text(
+                    l10n.incorrectSolution,
+                    style: const TextStyle(color: Color(0xFFFFFFFF)),
                   ),
-                  content: const Text(
-                    'The solution is incorrect. Keep trying!',
-                    style: TextStyle(color: Color(0xFFFFFFFF)),
+                  content: Text(
+                    l10n.incorrectSolutionMessage,
+                    style: const TextStyle(color: Color(0xFFFFFFFF)),
                   ),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text(
-                        'OK',
-                        style: TextStyle(color: Color(0xFF4FFBDF)),
+                      child: Text(
+                        l10n.ok,
+                        style: const TextStyle(color: Color(0xFF4FFBDF)),
                       ),
                     ),
                   ],
@@ -505,13 +544,14 @@ class _GameScreenState extends ConsumerState<GameScreen> {
               );
             }
           },
-          child: const Text('Check Solution'),
+          child: Text(l10n.checkSolution),
         ),
       ),
     );
   }
 
   void _showPicker(BuildContext context, String title, List<String> options, Function(String) onSelect) {
+    final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -535,13 +575,14 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                 child: ListView.builder(
                   itemCount: options.length,
                   itemBuilder: (context, index) {
+                    final opt = options[index];
                     return ListTile(
                       title: Text(
-                        options[index],
+                        opt == '-' ? '-' : MatrixPuzzleEngine.localizeItem(l10n, opt),
                         style: const TextStyle(color: Color(0xFFFFFFFF)),
                       ),
                       onTap: () {
-                        onSelect(options[index]);
+                        onSelect(opt);
                         Navigator.pop(context);
                       },
                     );

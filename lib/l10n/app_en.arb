@@ -1,0 +1,689 @@
+{
+  "appTitle": "Matrix Puzzle",
+  "appSubtitle": "A Logic Puzzle in the Skyscraper",
+  "play": "Play",
+  "dailyChallenge": "Daily Challenge",
+  "levels": "Levels",
+  "randomPuzzle": "Random Puzzle",
+  "howToPlay": "How to Play",
+  "settings": "Settings",
+  "selectDifficulty": "Select Difficulty",
+  "difficultyEasy": "Easy",
+  "difficultyMedium": "Medium",
+  "difficultyHard": "Hard",
+  "difficultyExpert": "Expert",
+  "floorsCount": "{count} Floors",
+  "@floorsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "levelTitle": "Level {levelNumber}",
+  "@levelTitle": {
+    "placeholders": {
+      "levelNumber": {
+        "type": "int"
+      }
+    }
+  },
+  "practiceBuilding": "Practice Building",
+  "floor": "Floor",
+  "floorGround": "G",
+  "floorTop": "T",
+  "categoryName": "Name",
+  "categoryProfession": "Profession",
+  "categoryPet": "Pet",
+  "categoryHobby": "Hobby",
+  "categoryDrink": "Drink",
+  "categoryColor": "Color",
+  "categoryVehicle": "Vehicle",
+  "categoryInstrument": "Instrument",
+  "categoryNationality": "Nationality",
+  "notes": "NOTES",
+  "notesHint": "Write your notes or deductions here...",
+  "clues": "CLUES",
+  "resetGame": "Reset Game",
+  "resetGameConfirmation": "Are you sure you want to reset the current game?",
+  "cancel": "Cancel",
+  "reset": "Reset",
+  "hint": "Hint",
+  "tapACell": "Tap a cell",
+  "undo": "Undo",
+  "victoryMessage": "Congratulations! You solved the puzzle correctly!",
+  "nextLevel": "Next Level",
+  "mainMenu": "Main Menu",
+  "buyMeACoffee": "Buy me a coffee",
+  "checkSolution": "Check Solution",
+  "incorrectSolution": "Incorrect Solution",
+  "incorrectSolutionMessage": "The solution is incorrect. Keep trying!",
+  "ok": "OK",
+  "dailyCompletedMessage": "You solved today's challenge! Come back tomorrow for a new one.",
+  "dailyInstructionMessage": "Solve today's puzzle. Same grid and clues for all players today.",
+  "replayChallenge": "Replay Challenge",
+  "playTodayRiddle": "Play Today's Riddle",
+  "objectiveTitle": "Objective",
+  "objectiveDescription": "Matrix Puzzle is a deductive logic puzzle where you determine which resident lives on each floor of a building. Each puzzle features dynamic themes with different categories (such as Names, Pets, Hobbies, Drinks, Professions, Vehicles, Colors, Instruments, and Nationalities). Every floor has exactly one resident with one item from each category. Your goal is to deduce the full solution using the clues.",
+  "clueTypesTitle": "Clue Types & Meanings",
+  "clueSectionDirectTitle": "1. Direct & Parity Clues",
+  "clueSectionDirectDesc": "These identify exact floor positions or numerical properties.",
+  "exampleDirectClue1": "James lives on the 1st floor (Ground floor).",
+  "exampleDirectMeaning1": "James is on Floor 1. Tap the Name cell on Floor 1 and select 'James'.",
+  "exampleDirectClue2": "The Doctor lives on an odd-numbered floor.",
+  "exampleDirectMeaning2": "The Doctor can only live on Floor 1, 3, 5, 7, etc.",
+  "clueSectionAssociationTitle": "2. Association & Negative Clues",
+  "clueSectionAssociationDesc": "These link or separate two characteristics belonging to residents.",
+  "exampleAssocClue1": "Maria has a Cat.",
+  "exampleAssocMeaning1": "Maria and Cat belong on the same floor.",
+  "exampleAssocClue2": "Chen does not drink Coffee.",
+  "exampleAssocMeaning2": "Chen and Coffee cannot be on the same floor.",
+  "clueSectionNeighborTitle": "3. Neighbor & Relative Position",
+  "clueSectionNeighborDesc": "These describe vertical positioning relationships between residents.",
+  "exampleNeighborClue1": "Yuki lives directly above Ahmed.",
+  "exampleNeighborMeaning1": "Yuki is on the immediate floor above Ahmed (Floor X + 1).",
+  "exampleNeighborClue2": "Sofia lives on a floor adjacent to Dmitri.",
+  "exampleNeighborMeaning2": "Sofia lives either directly above or directly below Dmitri (|Floor A - Floor B| = 1).",
+  "exampleNeighborClue3": "The Pilot lives somewhere above the Chef.",
+  "exampleNeighborMeaning3": "The Pilot lives on any higher floor than the Chef (Floor > X).",
+  "clueSectionDistanceTitle": "4. Distance & Betweenness Clues",
+  "clueSectionDistanceDesc": "Advanced clues that specify relative gaps and sandwich arrangements.",
+  "exampleDistanceClue1": "Elena lives exactly 2 floors above Priya.",
+  "exampleDistanceMeaning1": "Elena's floor is exactly Priya's floor + 2 (e.g., Floors 1 and 3, or Floors 3 and 5).",
+  "exampleDistanceClue2": "Chen lives on a floor between Maria and the Architect.",
+  "exampleDistanceMeaning2": "Chen's floor is strictly between Maria's floor and the Architect's floor.",
+  "toolsAndControlsTitle": "Tools & Controls",
+  "helpfulFeaturesTitle": "Helpful Features",
+  "helpfulFeaturesDesc": "Use these in-game tools to assist your deductions:",
+  "toolHintTitle": "Hint Button (Above Grid)",
+  "toolHintDesc": "Tap Hint and then tap any cell on the grid to reveal the correct value. You get 1 hint for 3-4 floor puzzles and 2 hints for 5+ floor puzzles.",
+  "toolUndoTitle": "Undo Button (Above Grid)",
+  "toolUndoDesc": "Tap Undo to revert your last cell placement or hint action.",
+  "toolCrossOutTitle": "Cross Out Clues",
+  "toolCrossOutDesc": "Tap any clue in the clue list to cross it out once you have applied its deduction.",
+  "toolNotesTitle": "Notes FAB (Bottom Right)",
+  "toolNotesDesc": "Tap the floating notes button to write down your own scratchpad deductions.",
+  "customizeBuildingSize": "Customize Building Size",
+  "floorsSliderLabel": "Floors: {count}",
+  "@floorsSliderLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "generatePracticeBuilding": "Generate Practice Building",
+  "moveCrossedCluesToBottomTitle": "Move Crossed Clues to Bottom",
+  "moveCrossedCluesToBottomSubtitle": "When enabled, clues crossed off will move to the bottom of the list",
+  "autoCheckSolutionTitle": "Auto Check Solution",
+  "autoCheckSolutionSubtitle": "Automatically verify and complete the puzzle when correct, removing the Check Solution button",
+  "clueFixedFloorGround": "{subject} lives on the 1st floor (Ground floor).",
+  "@clueFixedFloorGround": {
+    "placeholders": {
+      "subject": {
+        "type": "String"
+      }
+    }
+  },
+  "clueFixedFloorTop": "{subject} lives on the {ordinal} floor (Top floor).",
+  "@clueFixedFloorTop": {
+    "placeholders": {
+      "subject": {
+        "type": "String"
+      },
+      "ordinal": {
+        "type": "String"
+      }
+    }
+  },
+  "clueFixedFloor": "{subject} lives on the {ordinal} floor.",
+  "@clueFixedFloor": {
+    "placeholders": {
+      "subject": {
+        "type": "String"
+      },
+      "ordinal": {
+        "type": "String"
+      }
+    }
+  },
+  "clueParityOdd": "{subject} lives on an odd-numbered floor.",
+  "@clueParityOdd": {
+    "placeholders": {
+      "subject": {
+        "type": "String"
+      }
+    }
+  },
+  "clueParityEven": "{subject} lives on an even-numbered floor.",
+  "@clueParityEven": {
+    "placeholders": {
+      "subject": {
+        "type": "String"
+      }
+    }
+  },
+  "clueImmediateAbove": "{subject1} lives directly above {subject2}.",
+  "@clueImmediateAbove": {
+    "placeholders": {
+      "subject1": {
+        "type": "String"
+      },
+      "subject2": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSomewhereAbove": "{subject1} lives somewhere above {subject2}.",
+  "@clueSomewhereAbove": {
+    "placeholders": {
+      "subject1": {
+        "type": "String"
+      },
+      "subject2": {
+        "type": "String"
+      }
+    }
+  },
+  "clueAdjacent": "{subject1} lives on a floor adjacent to {subject2}.",
+  "@clueAdjacent": {
+    "placeholders": {
+      "subject1": {
+        "type": "String"
+      },
+      "subject2": {
+        "type": "String"
+      }
+    }
+  },
+  "clueDistanceAbove": "{subject1} lives exactly {distance} floors above {subject2}.",
+  "@clueDistanceAbove": {
+    "placeholders": {
+      "subject1": {
+        "type": "String"
+      },
+      "subject2": {
+        "type": "String"
+      },
+      "distance": {
+        "type": "int"
+      }
+    }
+  },
+  "clueBetween": "{subject1} lives on a floor between {subject2} and {subject3}.",
+  "@clueBetween": {
+    "placeholders": {
+      "subject1": {
+        "type": "String"
+      },
+      "subject2": {
+        "type": "String"
+      },
+      "subject3": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorPet": "{name} has {article} {value}.",
+  "@clueSameFloorPet": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorHobby": "{name} enjoys {value}.",
+  "@clueSameFloorHobby": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorDrink": "{name} drinks {value}.",
+  "@clueSameFloorDrink": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorVehicle": "{name} drives {article} {value}.",
+  "@clueSameFloorVehicle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorInstrument": "{name} plays the {value}.",
+  "@clueSameFloorInstrument": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorColor": "{name} has {article} {value} door.",
+  "@clueSameFloorColor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorProfession": "{name} is {article} {value}.",
+  "@clueSameFloorProfession": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorNationality": "{name} is {value}.",
+  "@clueSameFloorNationality": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorGeneric": "{subject1} shares a floor with {subject2}.",
+  "@clueSameFloorGeneric": {
+    "placeholders": {
+      "subject1": {
+        "type": "String"
+      },
+      "subject2": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorPet": "{name} does not have {article} {value}.",
+  "@clueNegativeFloorPet": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorHobby": "{name} does not enjoy {value}.",
+  "@clueNegativeFloorHobby": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorDrink": "{name} does not drink {value}.",
+  "@clueNegativeFloorDrink": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorVehicle": "{name} does not drive {article} {value}.",
+  "@clueNegativeFloorVehicle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorInstrument": "{name} does not play the {value}.",
+  "@clueNegativeFloorInstrument": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorColor": "{name} does not have {article} {value} door.",
+  "@clueNegativeFloorColor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorProfession": "{name} is not {article} {value}.",
+  "@clueNegativeFloorProfession": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorNationality": "{name} is not {value}.",
+  "@clueNegativeFloorNationality": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorGeneric": "{subject1} does not live on the same floor as {subject2}.",
+  "@clueNegativeFloorGeneric": {
+    "placeholders": {
+      "subject1": {
+        "type": "String"
+      },
+      "subject2": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectNationalityCap": "The {value} resident",
+  "@clueSubjectNationalityCap": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectNationalityLow": "the {value} resident",
+  "@clueSubjectNationalityLow": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectPetCap": "The person with {article} {value}",
+  "@clueSubjectPetCap": {
+    "placeholders": {
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectPetLow": "the person with {article} {value}",
+  "@clueSubjectPetLow": {
+    "placeholders": {
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectHobbyCap": "The person who enjoys {value}",
+  "@clueSubjectHobbyCap": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectHobbyLow": "the person who enjoys {value}",
+  "@clueSubjectHobbyLow": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectDrinkCap": "The {value} drinker",
+  "@clueSubjectDrinkCap": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectDrinkLow": "the {value} drinker",
+  "@clueSubjectDrinkLow": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectVehicleCap": "The person with {article} {value}",
+  "@clueSubjectVehicleCap": {
+    "placeholders": {
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectVehicleLow": "the person with {article} {value}",
+  "@clueSubjectVehicleLow": {
+    "placeholders": {
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectInstrumentCap": "The {value} player",
+  "@clueSubjectInstrumentCap": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectInstrumentLow": "the {value} player",
+  "@clueSubjectInstrumentLow": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectColorCap": "The resident with the {value} door",
+  "@clueSubjectColorCap": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectColorLow": "the resident with the {value} door",
+  "@clueSubjectColorLow": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectGenericCap": "The {value}",
+  "@clueSubjectGenericCap": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectGenericLow": "the {value}",
+  "@clueSubjectGenericLow": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "itemJames": "James",
+  "itemMaria": "Maria",
+  "itemPriya": "Priya",
+  "itemChen": "Chen",
+  "itemElena": "Elena",
+  "itemSofia": "Sofia",
+  "itemAhmed": "Ahmed",
+  "itemDmitri": "Dmitri",
+  "itemYuki": "Yuki",
+  "itemOmar": "Omar",
+  "itemFatima": "Fatima",
+  "itemAisha": "Aisha",
+  "itemMei": "Mei",
+  "itemChloe": "Chloe",
+  "itemZara": "Zara",
+  "itemLucia": "Lucia",
+  "itemAmara": "Amara",
+  "itemIngrid": "Ingrid",
+  "itemAnanya": "Ananya",
+  "itemLeila": "Leila",
+  "itemDoctor": "Doctor",
+  "itemEngineer": "Engineer",
+  "itemTeacher": "Teacher",
+  "itemArtist": "Artist",
+  "itemLawyer": "Lawyer",
+  "itemPilot": "Pilot",
+  "itemChef": "Chef",
+  "itemNurse": "Nurse",
+  "itemArchitect": "Architect",
+  "itemMusician": "Musician",
+  "itemCat": "Cat",
+  "itemDog": "Dog",
+  "itemParrot": "Parrot",
+  "itemHamster": "Hamster",
+  "itemTurtle": "Turtle",
+  "itemRabbit": "Rabbit",
+  "itemIguana": "Iguana",
+  "itemFerret": "Ferret",
+  "itemFish": "Fish",
+  "itemHedgehog": "Hedgehog",
+  "itemGardening": "Gardening",
+  "itemPhotography": "Photography",
+  "itemChess": "Chess",
+  "itemPainting": "Painting",
+  "itemBaking": "Baking",
+  "itemAstronomy": "Astronomy",
+  "itemGaming": "Gaming",
+  "itemHiking": "Hiking",
+  "itemYoga": "Yoga",
+  "itemOrigami": "Origami",
+  "itemEspresso": "Espresso",
+  "itemGreenTea": "Green Tea",
+  "itemCocoa": "Cocoa",
+  "itemLemonade": "Lemonade",
+  "itemBoba": "Boba",
+  "itemCappuccino": "Cappuccino",
+  "itemSmoothie": "Smoothie",
+  "itemChai": "Chai",
+  "itemMilkshake": "Milkshake",
+  "itemIcedCoffee": "Iced Coffee",
+  "itemCrimson": "Crimson",
+  "itemSapphire": "Sapphire",
+  "itemEmerald": "Emerald",
+  "itemAmber": "Amber",
+  "itemViolet": "Violet",
+  "itemCoral": "Coral",
+  "itemTeal": "Teal",
+  "itemGold": "Gold",
+  "itemLavender": "Lavender",
+  "itemTurquoise": "Turquoise",
+  "itemBicycle": "Bicycle",
+  "itemScooter": "Scooter",
+  "itemElectricCar": "Electric Car",
+  "itemVintageCar": "Vintage Car",
+  "itemMotorcycle": "Motorcycle",
+  "itemSkateboard": "Skateboard",
+  "itemUnicycle": "Unicycle",
+  "itemSegway": "Segway",
+  "itemRollerblades": "Rollerblades",
+  "itemMoped": "Moped",
+  "itemPiano": "Piano",
+  "itemGuitar": "Guitar",
+  "itemViolin": "Violin",
+  "itemDrums": "Drums",
+  "itemFlute": "Flute",
+  "itemSaxophone": "Saxophone",
+  "itemCello": "Cello",
+  "itemTrumpet": "Trumpet",
+  "itemHarp": "Harp",
+  "itemClarinet": "Clarinet",
+  "itemAmerican": "American",
+  "itemBrazilian": "Brazilian",
+  "itemChinese": "Chinese",
+  "itemJapanese": "Japanese",
+  "itemEgyptian": "Egyptian",
+  "itemSpanish": "Spanish",
+  "itemRussian": "Russian",
+  "itemIndian": "Indian",
+  "itemMoroccan": "Moroccan",
+  "itemItalian": "Italian"
+}

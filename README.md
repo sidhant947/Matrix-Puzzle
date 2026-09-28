@@ -4,6 +4,8 @@ A minimal, open-source matrix puzzle game also known as floor puzzle.
 
 <a href='https://ko-fi.com/M4M01C1R6J' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://storage.ko-fi.com/cdn/kofi2.png?v=6' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
+Play it in browser : https://matrix.fossgames.online/
+
 ## Features
 
 - **Infinite Levels**: Procedurally generated puzzles for endless gameplay.

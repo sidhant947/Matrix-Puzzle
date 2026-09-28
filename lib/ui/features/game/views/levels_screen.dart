@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../view_models/game_provider.dart';
 import 'game_screen.dart';
+import 'package:matrixpuzzle/l10n/app_localizations.dart';
 
 class LevelsScreen extends ConsumerWidget {
   const LevelsScreen({super.key});
@@ -9,6 +10,7 @@ class LevelsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final progress = ref.watch(userProgressProvider);
     final currentLevel = progress['currentLevel'] as int? ?? 1;
     final completedLevels = progress['completedLevels'] as List<int>? ?? [];
@@ -19,7 +21,7 @@ class LevelsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Levels'),
+        title: Text(l10n.levels),
       ),
       body: GridView.builder(
         padding: const EdgeInsets.all(16),
