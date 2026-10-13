@@ -61,6 +61,21 @@ class GameNotifier extends _$GameNotifier {
     state = repo.startNewGame(floorsCount: floorsCount);
   }
 
+  void clearBoard() {
+    _history.clear();
+    final emptyUserSolution = <String, Map<String, String>>{};
+    for (final floor in state.options['Floor'] ?? const <String>[]) {
+      emptyUserSolution[floor] = {};
+    }
+    final repo = ref.read(gameRepositoryProvider);
+    state = state.copyWith(
+      userSolution: emptyUserSolution,
+      isVictory: false,
+      hintsUsed: 0,
+    );
+    repo.saveGame(state);
+  }
+
   void updateAssignment(String floor, String category, String value) {
     if (state.isVictory) return;
 

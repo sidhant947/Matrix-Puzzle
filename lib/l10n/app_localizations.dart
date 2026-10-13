@@ -292,6 +292,24 @@ abstract class AppLocalizations {
   /// **'Are you sure you want to reset the current game?'**
   String get resetGameConfirmation;
 
+  /// No description provided for @leaveGame.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave Game'**
+  String get leaveGame;
+
+  /// No description provided for @leaveGameConfirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to leave the game?'**
+  String get leaveGameConfirmation;
+
+  /// No description provided for @leave.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave'**
+  String get leave;
+
   /// No description provided for @cancel.
   ///
   /// In en, this message translates to:

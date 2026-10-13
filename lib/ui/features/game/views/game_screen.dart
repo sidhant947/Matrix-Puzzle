@@ -21,7 +21,9 @@ class _GameScreenState extends ConsumerState<GameScreen> {
   @override
   void initState() {
     super.initState();
-    _notesController = TextEditingController(text: ref.read(gameNotifierProvider).notes);
+    _notesController = TextEditingController(
+      text: ref.read(gameNotifierProvider).notes,
+    );
   }
 
   @override
@@ -42,7 +44,8 @@ class _GameScreenState extends ConsumerState<GameScreen> {
           _showNotes = false;
           _isHintActive = false;
         });
-      } else if (previous?.notes != next.notes && _notesController.text != next.notes) {
+      } else if (previous?.notes != next.notes &&
+          _notesController.text != next.notes) {
         _notesController.text = next.notes;
       }
     });
@@ -54,11 +57,7 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     final l10n = AppLocalizations.of(context)!;
 
     if (state.isLoading) {
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     final floors = state.options['Floor']!;
@@ -90,26 +89,26 @@ class _GameScreenState extends ConsumerState<GameScreen> {
         ),
         child: Table(
           border: const TableBorder(
-            horizontalInside: BorderSide(
-              color: Color(0xFF4A4F6B),
-              width: 0.5,
-            ),
-            verticalInside: BorderSide(
-              color: Color(0xFF4A4F6B),
-              width: 0.5,
-            ),
+            horizontalInside: BorderSide(color: Color(0xFF4A4F6B), width: 0.5),
+            verticalInside: BorderSide(color: Color(0xFF4A4F6B), width: 0.5),
           ),
           children: [
             TableRow(
               children: [
                 _Cell(text: l10n.floor, isHeader: true),
-                ...categories.map((cat) => _Cell(text: _categoryLabel(context, cat), isHeader: true)),
+                ...categories.map(
+                  (cat) =>
+                      _Cell(text: _categoryLabel(context, cat), isHeader: true),
+                ),
               ],
             ),
             ...floors.reversed.map((floor) {
               return TableRow(
                 children: [
-                  _Cell(text: _floorLabel(context, floor, floors.length), isHeader: true),
+                  _Cell(
+                    text: _floorLabel(context, floor, floors.length),
+                    isHeader: true,
+                  ),
                   ...categories.map((cat) {
                     final value = state.userSolution[floor]![cat] ?? '-';
                     final isSelected = value != '-';
@@ -122,13 +121,20 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                             _isHintActive = false;
                           });
                         } else {
-                          _showPicker(context, _categoryLabel(context, cat), ['-', ...state.options[cat]!], (val) {
-                            notifier.updateAssignment(floor, cat, val);
-                          });
+                          _showPicker(
+                            context,
+                            _categoryLabel(context, cat),
+                            ['-', ...state.options[cat]!],
+                            (val) {
+                              notifier.updateAssignment(floor, cat, val);
+                            },
+                          );
                         }
                       },
                       child: _Cell(
-                        text: value == '-' ? '-' : MatrixPuzzleEngine.localizeItem(l10n, value),
+                        text: value == '-'
+                            ? '-'
+                            : MatrixPuzzleEngine.localizeItem(l10n, value),
                         isSelected: isSelected,
                       ),
                     );
@@ -143,259 +149,360 @@ class _GameScreenState extends ConsumerState<GameScreen> {
 
     final cluesOrNotesWidget = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: _showNotes
-          ? Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  l10n.notes,
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.0,
-                    color: const Color(0xFF4FFBDF),
-                  ),
-                ),
-                const Divider(color: Color(0xFF4A4F6B)),
-                TextField(
-                  controller: _notesController,
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                  onChanged: (text) {
-                    notifier.updateNotes(text);
-                  },
-                  style: const TextStyle(
-                    color: Color(0xFFFFFFFF),
-                    fontSize: 14,
-                    height: 1.4,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: l10n.notesHint,
-                    hintStyle: TextStyle(
-                      color: const Color(0xFFFFFFFF).withValues(alpha: 0.4),
-                      fontSize: 14,
-                    ),
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
-                  ),
-                ),
-                const SizedBox(height: 80),
-              ],
-            )
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  l10n.clues,
-                  style: theme.textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 1.0,
-                    color: const Color(0xFF4FFBDF),
-                  ),
-                ),
-                const Divider(color: Color(0xFF4A4F6B)),
-                ...displayedClues.map((clue) {
-                  final isCrossed = state.crossedClues.contains(clue);
-                  return InkWell(
-                    onTap: () {
-                      notifier.toggleClueCrossed(clue);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "• ",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: isCrossed ? const Color(0xFF4A4F6B) : const Color(0xFFFFFFFF),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              MatrixPuzzleEngine.formatClue(clue, l10n),
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                decoration: isCrossed ? TextDecoration.lineThrough : null,
-                                color: isCrossed ? const Color(0xFF4A4F6B) : const Color(0xFFFFFFFF),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
-                const SizedBox(height: 80),
-              ],
-            ),
-    );
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          titleText,
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        foregroundColor: theme.colorScheme.onSurface,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (dialogContext) => AlertDialog(
-                  backgroundColor: const Color(0xFF12131C),
-                  title: Text(
-                    l10n.resetGame,
-                    style: const TextStyle(color: Color(0xFFE4EBE7)),
-                  ),
-                  content: Text(
-                    l10n.resetGameConfirmation,
-                    style: const TextStyle(color: Color(0xFFE4EBE7)),
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(dialogContext),
-                      child: Text(
-                        l10n.cancel,
-                        style: const TextStyle(color: Color(0xFFE4EBE7)),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(dialogContext);
-                        if (state.gameType == 'level' && state.levelNumber != null) {
-                           notifier.startNewLevel(state.levelNumber!);
-                        } else if (state.gameType == 'daily' && state.dailyDate != null) {
-                           notifier.startDailyChallenge(state.dailyDate!);
-                        } else {
-                           notifier.startPracticeGame(
-                            floorsCount: state.options['Floor']!.length,
-                          );
-                        }
-                      },
-                      child: Text(
-                        l10n.reset,
-                        style: const TextStyle(color: Color(0xFFDCA134)),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-      bottomNavigationBar: state.isVictory
-          ? _buildVictoryOverlay(context, state, notifier, theme)
-          : (settings.autoCheckSolution
-              ? null
-              : _buildCheckButton(context, state, notifier, theme)),
-      floatingActionButton: FloatingActionButton(
-        heroTag: 'notes_fab',
-        backgroundColor: const Color(0xFF1E2030),
-        foregroundColor: const Color(0xFF4FFBDF),
-        onPressed: () {
-          setState(() {
-            _showNotes = !_showNotes;
-          });
-        },
-        child: Icon(_showNotes ? Icons.format_list_bulleted : Icons.edit_note),
-      ),
-      body: Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 0.0),
-            child: Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton.icon(
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: _isHintActive ? const Color(0xFFDCA134).withValues(alpha: 0.2) : null,
-                      side: BorderSide(
+          Stack(
+            children: [
+              const Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Divider(
+                  color: Color(0xFF4A4F6B),
+                  height: 1,
+                  thickness: 1,
+                ),
+              ),
+              Row(
+                children: [
+                  _buildTab(
+                    title: l10n.clues,
+                    isSelected: !_showNotes,
+                    onTap: () {
+                      if (_showNotes) {
+                        setState(() {
+                          _showNotes = false;
+                        });
+                      }
+                    },
+                  ),
+                  const SizedBox(width: 8),
+                  _buildTab(
+                    title: l10n.notes,
+                    isSelected: _showNotes,
+                    onTap: () {
+                      if (!_showNotes) {
+                        setState(() {
+                          _showNotes = true;
+                        });
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          if (_showNotes) ...[
+            TextField(
+              controller: _notesController,
+              maxLines: null,
+              keyboardType: TextInputType.multiline,
+              onChanged: (text) {
+                notifier.updateNotes(text);
+              },
+              style: const TextStyle(
+                color: Color(0xFFFFFFFF),
+                fontSize: 14,
+                height: 1.4,
+              ),
+              decoration: InputDecoration(
+                hintText: l10n.notesHint,
+                hintStyle: TextStyle(
+                  color: const Color(0xFFFFFFFF).withValues(alpha: 0.4),
+                  fontSize: 14,
+                ),
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
+              ),
+            ),
+            const SizedBox(height: 40),
+          ] else ...[
+            ...displayedClues.map((clue) {
+              final isCrossed = state.crossedClues.contains(clue);
+              return InkWell(
+                onTap: () {
+                  notifier.toggleClueCrossed(clue);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 6.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "• ",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: isCrossed
+                              ? const Color(0xFF4A4F6B)
+                              : const Color(0xFFFFFFFF),
+                        ),
+                      ),
+                      Expanded(
+                        child: Text(
+                          MatrixPuzzleEngine.formatClue(clue, l10n),
+                          style: theme.textTheme.bodyMedium?.copyWith(
+                            decoration: isCrossed
+                                ? TextDecoration.lineThrough
+                                : null,
+                            color: isCrossed
+                                ? const Color(0xFF4A4F6B)
+                                : const Color(0xFFFFFFFF),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+            const SizedBox(height: 40),
+          ],
+        ],
+      ),
+    );
+
+    return PopScope(
+      canPop: state.isVictory,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        final shouldLeave = await _showLeaveConfirmationDialog(context);
+        if (shouldLeave && context.mounted) {
+          Navigator.of(context).pop();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            titleText,
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          foregroundColor: theme.colorScheme.onSurface,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.refresh),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (dialogContext) => AlertDialog(
+                    backgroundColor: const Color(0xFF12131C),
+                    title: Text(
+                      l10n.resetGame,
+                      style: const TextStyle(color: Color(0xFFE4EBE7)),
+                    ),
+                    content: Text(
+                      l10n.resetGameConfirmation,
+                      style: const TextStyle(color: Color(0xFFE4EBE7)),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(dialogContext),
+                        child: Text(
+                          l10n.cancel,
+                          style: const TextStyle(color: Color(0xFFE4EBE7)),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(dialogContext);
+                          setState(() {
+                            _isHintActive = false;
+                          });
+                          notifier.clearBoard();
+                        },
+                        child: Text(
+                          l10n.reset,
+                          style: const TextStyle(color: Color(0xFFDCA134)),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+        bottomNavigationBar: state.isVictory
+            ? _buildVictoryOverlay(context, state, notifier, theme)
+            : (settings.autoCheckSolution
+                  ? null
+                  : _buildCheckButton(context, state, notifier, theme)),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16.0, 12.0, 16.0, 0.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: _isHintActive
+                            ? const Color(0xFFDCA134).withValues(alpha: 0.2)
+                            : null,
+                        side: BorderSide(
+                          color: _isHintActive
+                              ? const Color(0xFFDCA134)
+                              : (state.canUseHint
+                                    ? const Color(0xFF4A4F6B)
+                                    : const Color(
+                                        0xFF4A4F6B,
+                                      ).withValues(alpha: 0.4)),
+                        ),
+                        foregroundColor: _isHintActive
+                            ? const Color(0xFFDCA134)
+                            : (state.canUseHint
+                                  ? const Color(0xFFFFFFFF)
+                                  : const Color(
+                                      0xFFFFFFFF,
+                                    ).withValues(alpha: 0.4)),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                      ),
+                      onPressed:
+                          state.isVictory ||
+                              (!state.canUseHint && !_isHintActive)
+                          ? null
+                          : () {
+                              setState(() {
+                                _isHintActive = !_isHintActive;
+                              });
+                            },
+                      icon: Icon(
+                        _isHintActive
+                            ? Icons.lightbulb
+                            : Icons.lightbulb_outline,
+                        size: 20,
                         color: _isHintActive
                             ? const Color(0xFFDCA134)
                             : (state.canUseHint
-                                ? const Color(0xFF4A4F6B)
-                                : const Color(0xFF4A4F6B).withValues(alpha: 0.4)),
+                                  ? const Color(0xFF4FFBDF)
+                                  : const Color(
+                                      0xFF4FFBDF,
+                                    ).withValues(alpha: 0.4)),
                       ),
-                      foregroundColor: _isHintActive
-                          ? const Color(0xFFDCA134)
-                          : (state.canUseHint
-                              ? const Color(0xFFFFFFFF)
-                              : const Color(0xFFFFFFFF).withValues(alpha: 0.4)),
-                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      label: Text(_isHintActive ? l10n.tapACell : l10n.hint),
                     ),
-                    onPressed: state.isVictory || (!state.canUseHint && !_isHintActive)
-                        ? null
-                        : () {
-                            setState(() {
-                              _isHintActive = !_isHintActive;
-                            });
-                          },
-                    icon: Icon(
-                      _isHintActive ? Icons.lightbulb : Icons.lightbulb_outline,
-                      size: 20,
-                      color: _isHintActive
-                          ? const Color(0xFFDCA134)
-                          : (state.canUseHint
-                              ? const Color(0xFF4FFBDF)
-                              : const Color(0xFF4FFBDF).withValues(alpha: 0.4)),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(
+                          color: notifier.canUndo
+                              ? const Color(0xFF4A4F6B)
+                              : const Color(0xFF4A4F6B).withValues(alpha: 0.4),
+                        ),
+                        foregroundColor: notifier.canUndo
+                            ? const Color(0xFFFFFFFF)
+                            : const Color(0xFFFFFFFF).withValues(alpha: 0.4),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                      ),
+                      onPressed: notifier.canUndo
+                          ? () => notifier.undo()
+                          : null,
+                      icon: Icon(
+                        Icons.undo,
+                        size: 20,
+                        color: notifier.canUndo
+                            ? const Color(0xFF4FFBDF)
+                            : const Color(0xFF4FFBDF).withValues(alpha: 0.4),
+                      ),
+                      label: Text(l10n.undo),
                     ),
-                    label: Text(_isHintActive ? l10n.tapACell : l10n.hint),
+                  ),
+                ],
+              ),
+            ),
+            if (floors.length >= 7)
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [gridWidget, cluesOrNotesWidget],
                   ),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: OutlinedButton.icon(
-                    style: OutlinedButton.styleFrom(
-                      side: BorderSide(
-                        color: notifier.canUndo ? const Color(0xFF4A4F6B) : const Color(0xFF4A4F6B).withValues(alpha: 0.4),
-                      ),
-                      foregroundColor: notifier.canUndo ? const Color(0xFFFFFFFF) : const Color(0xFFFFFFFF).withValues(alpha: 0.4),
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                    ),
-                    onPressed: notifier.canUndo ? () => notifier.undo() : null,
-                    icon: Icon(
-                      Icons.undo,
-                      size: 20,
-                      color: notifier.canUndo ? const Color(0xFF4FFBDF) : const Color(0xFF4FFBDF).withValues(alpha: 0.4),
-                    ),
-                    label: Text(l10n.undo),
-                  ),
-                ),
-              ],
+              )
+            else ...[
+              gridWidget,
+              Expanded(child: SingleChildScrollView(child: cluesOrNotesWidget)),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<bool> _showLeaveConfirmationDialog(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
+    final result = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        backgroundColor: const Color(0xFF12131C),
+        title: Text(
+          l10n.leaveGame,
+          style: const TextStyle(color: Color(0xFFE4EBE7)),
+        ),
+        content: Text(
+          l10n.leaveGameConfirmation,
+          style: const TextStyle(color: Color(0xFFE4EBE7)),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, false),
+            child: Text(
+              l10n.cancel,
+              style: const TextStyle(color: Color(0xFFE4EBE7)),
             ),
           ),
-          if (floors.length > 7)
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    gridWidget,
-                    cluesOrNotesWidget,
-                  ],
-                ),
-              ),
-            )
-          else ...[
-            gridWidget,
-            Expanded(
-              child: SingleChildScrollView(
-                child: cluesOrNotesWidget,
-              ),
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext, true),
+            child: Text(
+              l10n.leave,
+              style: const TextStyle(color: Color(0xFFDCA134)),
             ),
-          ],
+          ),
         ],
+      ),
+    );
+    return result ?? false;
+  }
+
+  Widget _buildTab({
+    required String title,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: isSelected ? const Color(0xFF4FFBDF) : Colors.transparent,
+              width: 2.0,
+            ),
+          ),
+        ),
+        child: Text(
+          title,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.0,
+            fontSize: 14,
+            color: isSelected
+                ? const Color(0xFF4FFBDF)
+                : const Color(0xFFFFFFFF).withValues(alpha: 0.4),
+          ),
+        ),
       ),
     );
   }
@@ -436,16 +543,19 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     return '$floor';
   }
 
-  Widget _buildVictoryOverlay(BuildContext context, GameStateModel state, GameNotifier notifier, ThemeData theme) {
+  Widget _buildVictoryOverlay(
+    BuildContext context,
+    GameStateModel state,
+    GameNotifier notifier,
+    ThemeData theme,
+  ) {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: const BoxDecoration(
         color: Color(0xFF1E2030),
-        border: Border(
-          top: BorderSide(color: Color(0xFF4A4F6B), width: 1),
-        ),
+        border: Border(top: BorderSide(color: Color(0xFF4A4F6B), width: 1)),
       ),
       child: SafeArea(
         child: Column(
@@ -484,12 +594,19 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                   onPressed: () async {
                     final url = Uri.parse('https://ko-fi.com/sidhant947');
                     try {
-                      await launchUrl(url, mode: LaunchMode.externalApplication);
+                      await launchUrl(
+                        url,
+                        mode: LaunchMode.externalApplication,
+                      );
                     } catch (_) {
                       await launchUrl(url, mode: LaunchMode.platformDefault);
                     }
                   },
-                  icon: const Icon(Icons.coffee, size: 18, color: Color(0xFF4FFBDF)),
+                  icon: const Icon(
+                    Icons.coffee,
+                    size: 18,
+                    color: Color(0xFF4FFBDF),
+                  ),
                   label: Text(
                     l10n.buyMeACoffee,
                     style: const TextStyle(color: Color(0xFFFFFFFF)),
@@ -503,16 +620,19 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     );
   }
 
-  Widget _buildCheckButton(BuildContext context, GameStateModel state, GameNotifier notifier, ThemeData theme) {
+  Widget _buildCheckButton(
+    BuildContext context,
+    GameStateModel state,
+    GameNotifier notifier,
+    ThemeData theme,
+  ) {
     final l10n = AppLocalizations.of(context)!;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       decoration: const BoxDecoration(
         color: Color(0xFF1E2030),
-        border: Border(
-          top: BorderSide(color: Color(0xFF4A4F6B), width: 1),
-        ),
+        border: Border(top: BorderSide(color: Color(0xFF4A4F6B), width: 1)),
       ),
       child: SafeArea(
         child: FilledButton(
@@ -550,7 +670,12 @@ class _GameScreenState extends ConsumerState<GameScreen> {
     );
   }
 
-  void _showPicker(BuildContext context, String title, List<String> options, Function(String) onSelect) {
+  void _showPicker(
+    BuildContext context,
+    String title,
+    List<String> options,
+    Function(String) onSelect,
+  ) {
     final l10n = AppLocalizations.of(context)!;
     showModalBottomSheet(
       context: context,
@@ -578,7 +703,9 @@ class _GameScreenState extends ConsumerState<GameScreen> {
                     final opt = options[index];
                     return ListTile(
                       title: Text(
-                        opt == '-' ? '-' : MatrixPuzzleEngine.localizeItem(l10n, opt),
+                        opt == '-'
+                            ? '-'
+                            : MatrixPuzzleEngine.localizeItem(l10n, opt),
                         style: const TextStyle(color: Color(0xFFFFFFFF)),
                       ),
                       onTap: () {
@@ -625,7 +752,9 @@ class _Cell extends StatelessWidget {
             fontWeight: isHeader ? FontWeight.bold : FontWeight.normal,
             color: isSelected
                 ? const Color(0xFF4FFBDF)
-                : (isHeader ? const Color(0xFFFFFFFF) : const Color(0xFFFFFFFF).withValues(alpha: 0.7)),
+                : (isHeader
+                      ? const Color(0xFFFFFFFF)
+                      : const Color(0xFFFFFFFF).withValues(alpha: 0.7)),
             fontSize: 11,
           ),
         ),

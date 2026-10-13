@@ -113,6 +113,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Are you sure you want to reset the current game?';
 
   @override
+  String get leaveGame => 'Leave Game';
+
+  @override
+  String get leaveGameConfirmation =>
+      'Are you sure you want to leave the game?';
+
+  @override
+  String get leave => 'Leave';
+
+  @override
   String get cancel => 'Cancel';
 
   @override

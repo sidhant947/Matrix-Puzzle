@@ -54,3 +54,5 @@ Podfile.lock
 
 /linux/
 /test/
+# Local Netlify folder
+.netlify
