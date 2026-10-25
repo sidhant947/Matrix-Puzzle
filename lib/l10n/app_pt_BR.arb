@@ -1,0 +1,689 @@
+{
+  "appTitle": "Matrix Puzzle",
+  "appSubtitle": "Quebra-Cabeça de Lógica num Arranha-Céu",
+  "play": "Jogar",
+  "dailyChallenge": "Desafio Diário",
+  "levels": "Níveis",
+  "randomPuzzle": "Quebra-Cabeça Aleatório",
+  "howToPlay": "Como Jogar",
+  "settings": "Configurações",
+  "selectDifficulty": "Selecionar Dificuldade",
+  "difficultyEasy": "Fácil",
+  "difficultyMedium": "Médio",
+  "difficultyHard": "Difícil",
+  "difficultyExpert": "Especialista",
+  "floorsCount": "{count} Andares",
+  "@floorsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "levelTitle": "Nível {levelNumber}",
+  "@levelTitle": {
+    "placeholders": {
+      "levelNumber": {
+        "type": "int"
+      }
+    }
+  },
+  "practiceBuilding": "Prédio de Prática",
+  "floor": "Andar",
+  "floorGround": "T",
+  "floorTop": "C",
+  "categoryName": "Nome",
+  "categoryProfession": "Profissão",
+  "categoryPet": "Pet",
+  "categoryHobby": "Hobby",
+  "categoryDrink": "Bebida",
+  "categoryColor": "Cor",
+  "categoryVehicle": "Veículo",
+  "categoryInstrument": "Instrumento",
+  "categoryNationality": "Nacionalidade",
+  "notes": "NOTAS",
+  "notesHint": "Escreva suas notas ou deduções aqui...",
+  "clues": "PISTAS",
+  "resetGame": "Reiniciar Jogo",
+  "resetGameConfirmation": "Tem certeza de que deseja reiniciar o jogo atual?",
+  "cancel": "Cancelar",
+  "reset": "Reiniciar",
+  "hint": "Dica",
+  "tapACell": "Toque em uma célula",
+  "undo": "Desfazer",
+  "victoryMessage": "Parabéns! Você resolveu o quebra-cabeça corretamente!",
+  "nextLevel": "Próximo Nível",
+  "mainMenu": "Menu Principal",
+  "buyMeACoffee": "Pague-me um café",
+  "checkSolution": "Verificar Solução",
+  "incorrectSolution": "Solução Incorreta",
+  "incorrectSolutionMessage": "A solução está incorreta. Continue tentando!",
+  "ok": "OK",
+  "dailyCompletedMessage": "Você resolveu o desafio de hoje! Volte amanhã para um novo.",
+  "dailyInstructionMessage": "Resolva o enigma de hoje. A mesma grade e pistas para todos os jogadores hoje.",
+  "replayChallenge": "Jogar Desafio Novamente",
+  "playTodayRiddle": "Jogar o Enigma de Hoje",
+  "objectiveTitle": "Objetivo",
+  "objectiveDescription": "Matrix Puzzle é um quebra-cabeça de lógica dedutiva onde você determina qual residente mora em cada andar de um prédio. Cada quebra-cabeça apresenta temas dinâmicos com diferentes categorias (como Nomes, Pets, Hobbies, Bebidas, Profissões, Veículos, Cores, Instrumentos e Nacionalidades). Cada andar tem exatamente um residente com um item de cada categoria. Seu objetivo é deduzir a solução completa usando as pistas.",
+  "clueTypesTitle": "Tipos de Pistas e Significados",
+  "clueSectionDirectTitle": "1. Pistas Diretas e de Paridade",
+  "clueSectionDirectDesc": "Estas identificam posições exatas de andares ou propriedades numéricas.",
+  "exampleDirectClue1": "James mora no 1º andar (Térreo).",
+  "exampleDirectMeaning1": "James está no Andar 1. Toque na célula Nome no Andar 1 e selecione 'James'.",
+  "exampleDirectClue2": "O(a) Médico(a) mora em um andar ímpar.",
+  "exampleDirectMeaning2": "O(a) Médico(a) só pode morar no Andar 1, 3, 5, 7, etc.",
+  "clueSectionAssociationTitle": "2. Pistas de Associação e Negativas",
+  "clueSectionAssociationDesc": "Estas unem ou separam duas características pertencentes aos moradores.",
+  "exampleAssocClue1": "Maria tem um Gato.",
+  "exampleAssocMeaning1": "Maria e Gato pertencem ao mesmo andar.",
+  "exampleAssocClue2": "Chen não bebe Café.",
+  "exampleAssocMeaning2": "Chen e Café não podem estar no mesmo andar.",
+  "clueSectionNeighborTitle": "3. Vizinhos e Posição Relativa",
+  "clueSectionNeighborDesc": "Estas descrevem relações de posicionamento vertical entre os moradores.",
+  "exampleNeighborClue1": "Yuki mora exatamente acima de Ahmed.",
+  "exampleNeighborMeaning1": "Yuki está no andar imediatamente acima de Ahmed (Andar X + 1).",
+  "exampleNeighborClue2": "Sofia mora em um andar adjacente a Dmitri.",
+  "exampleNeighborMeaning2": "Sofia mora exatamente acima ou exatamente abaixo de Dmitri (|Andar A - Andar B| = 1).",
+  "exampleNeighborClue3": "O(a) Piloto mora em algum andar acima do(a) Chef.",
+  "exampleNeighborMeaning3": "O(a) Piloto mora em qualquer andar mais alto que o(a) Chef (Andar > X).",
+  "clueSectionDistanceTitle": "4. Pistas de Distância e Intervalo",
+  "clueSectionDistanceDesc": "Pistas avançadas que especificam distâncias relativas e arranjos intercalados.",
+  "exampleDistanceClue1": "Elena mora exatamente 2 andares acima de Priya.",
+  "exampleDistanceMeaning1": "O andar de Elena é exatamente o andar de Priya + 2 (ex: Andares 1 e 3, ou Andares 3 e 5).",
+  "exampleDistanceClue2": "Chen mora em um andar entre Maria e o(a) Arquiteto(a).",
+  "exampleDistanceMeaning2": "O andar de Chen fica estritamente entre o andar de Maria e o andar do(a) Arquiteto(a).",
+  "toolsAndControlsTitle": "Ferramentas e Controles",
+  "helpfulFeaturesTitle": "Recursos Úteis",
+  "helpfulFeaturesDesc": "Use estas ferramentas no jogo para auxiliar em suas deduções:",
+  "toolHintTitle": "Botão de Dica (Acima da Grade)",
+  "toolHintDesc": "Toque em Dica e, em seguida, toque em qualquer célula na grade para revelar o valor correto. Você recebe 1 dica para quebra-cabeças de 3-4 andares e 2 dicas para quebra-cabeças de 5+ andares.",
+  "toolUndoTitle": "Botão Desfazer (Acima da Grade)",
+  "toolUndoDesc": "Toque em Desfazer para reverter sua última colocação de célula ou ação de dica.",
+  "toolCrossOutTitle": "Riscar Pistas",
+  "toolCrossOutDesc": "Toque em qualquer pista na lista de pistas para riscá-la assim que tiver aplicado sua dedução.",
+  "toolNotesTitle": "Botão de Notas (Canto Inferior Direito)",
+  "toolNotesDesc": "Toque no botão flutuante de notas para anotar seus próprios rascunhos de deduções.",
+  "customizeBuildingSize": "Personalizar Tamanho do Prédio",
+  "floorsSliderLabel": "Andares: {count}",
+  "@floorsSliderLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "generatePracticeBuilding": "Gerar Prédio de Prática",
+  "moveCrossedCluesToBottomTitle": "Mover Pistas Riscadas para o Fim",
+  "moveCrossedCluesToBottomSubtitle": "Quando ativado, as pistas riscadas serão movidas para o final da lista",
+  "autoCheckSolutionTitle": "Verificação Automática",
+  "autoCheckSolutionSubtitle": "Verifica e conclui automaticamente o quebra-cabeça quando correto, removendo o botão Verificar Solução",
+  "clueFixedFloorGround": "{subject} mora no 1º andar (Térreo).",
+  "@clueFixedFloorGround": {
+    "placeholders": {
+      "subject": {
+        "type": "String"
+      }
+    }
+  },
+  "clueFixedFloorTop": "{subject} mora no {ordinal} andar (Cobertura).",
+  "@clueFixedFloorTop": {
+    "placeholders": {
+      "subject": {
+        "type": "String"
+      },
+      "ordinal": {
+        "type": "String"
+      }
+    }
+  },
+  "clueFixedFloor": "{subject} mora no {ordinal} andar.",
+  "@clueFixedFloor": {
+    "placeholders": {
+      "subject": {
+        "type": "String"
+      },
+      "ordinal": {
+        "type": "String"
+      }
+    }
+  },
+  "clueParityOdd": "{subject} mora em um andar ímpar.",
+  "@clueParityOdd": {
+    "placeholders": {
+      "subject": {
+        "type": "String"
+      }
+    }
+  },
+  "clueParityEven": "{subject} mora em um andar par.",
+  "@clueParityEven": {
+    "placeholders": {
+      "subject": {
+        "type": "String"
+      }
+    }
+  },
+  "clueImmediateAbove": "{subject1} mora exatamente acima de {subject2}.",
+  "@clueImmediateAbove": {
+    "placeholders": {
+      "subject1": {
+        "type": "String"
+      },
+      "subject2": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSomewhereAbove": "{subject1} mora em algum andar acima de {subject2}.",
+  "@clueSomewhereAbove": {
+    "placeholders": {
+      "subject1": {
+        "type": "String"
+      },
+      "subject2": {
+        "type": "String"
+      }
+    }
+  },
+  "clueAdjacent": "{subject1} mora em um andar adjacente a {subject2}.",
+  "@clueAdjacent": {
+    "placeholders": {
+      "subject1": {
+        "type": "String"
+      },
+      "subject2": {
+        "type": "String"
+      }
+    }
+  },
+  "clueDistanceAbove": "{subject1} mora exatamente {distance} andares acima de {subject2}.",
+  "@clueDistanceAbove": {
+    "placeholders": {
+      "subject1": {
+        "type": "String"
+      },
+      "subject2": {
+        "type": "String"
+      },
+      "distance": {
+        "type": "int"
+      }
+    }
+  },
+  "clueBetween": "{subject1} mora em um andar entre {subject2} e {subject3}.",
+  "@clueBetween": {
+    "placeholders": {
+      "subject1": {
+        "type": "String"
+      },
+      "subject2": {
+        "type": "String"
+      },
+      "subject3": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorPet": "{name} tem {article} {value}.",
+  "@clueSameFloorPet": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorHobby": "{name} gosta de {value}.",
+  "@clueSameFloorHobby": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorDrink": "{name} bebe {value}.",
+  "@clueSameFloorDrink": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorVehicle": "{name} dirige {article} {value}.",
+  "@clueSameFloorVehicle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorInstrument": "{name} toca {value}.",
+  "@clueSameFloorInstrument": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorColor": "{name} tem a porta {value}.",
+  "@clueSameFloorColor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorProfession": "{name} é {article} {value}.",
+  "@clueSameFloorProfession": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorNationality": "{name} é {value}.",
+  "@clueSameFloorNationality": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSameFloorGeneric": "{subject1} divide o andar com {subject2}.",
+  "@clueSameFloorGeneric": {
+    "placeholders": {
+      "subject1": {
+        "type": "String"
+      },
+      "subject2": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorPet": "{name} não tem {article} {value}.",
+  "@clueNegativeFloorPet": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorHobby": "{name} não gosta de {value}.",
+  "@clueNegativeFloorHobby": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorDrink": "{name} não bebe {value}.",
+  "@clueNegativeFloorDrink": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorVehicle": "{name} não dirige {article} {value}.",
+  "@clueNegativeFloorVehicle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorInstrument": "{name} não toca {value}.",
+  "@clueNegativeFloorInstrument": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorColor": "{name} não tem a porta {value}.",
+  "@clueNegativeFloorColor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorProfession": "{name} não é {article} {value}.",
+  "@clueNegativeFloorProfession": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorNationality": "{name} não é {value}.",
+  "@clueNegativeFloorNationality": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueNegativeFloorGeneric": "{subject1} não mora no mesmo andar que {subject2}.",
+  "@clueNegativeFloorGeneric": {
+    "placeholders": {
+      "subject1": {
+        "type": "String"
+      },
+      "subject2": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectNationalityCap": "O(a) morador(a) {value}",
+  "@clueSubjectNationalityCap": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectNationalityLow": "o(a) morador(a) {value}",
+  "@clueSubjectNationalityLow": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectPetCap": "A pessoa com {article} {value}",
+  "@clueSubjectPetCap": {
+    "placeholders": {
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectPetLow": "a pessoa com {article} {value}",
+  "@clueSubjectPetLow": {
+    "placeholders": {
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectHobbyCap": "A pessoa que gosta de {value}",
+  "@clueSubjectHobbyCap": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectHobbyLow": "a pessoa que gosta de {value}",
+  "@clueSubjectHobbyLow": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectDrinkCap": "Quem bebe {value}",
+  "@clueSubjectDrinkCap": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectDrinkLow": "quem bebe {value}",
+  "@clueSubjectDrinkLow": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectVehicleCap": "A pessoa com {article} {value}",
+  "@clueSubjectVehicleCap": {
+    "placeholders": {
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectVehicleLow": "a pessoa com {article} {value}",
+  "@clueSubjectVehicleLow": {
+    "placeholders": {
+      "article": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectInstrumentCap": "Quem toca {value}",
+  "@clueSubjectInstrumentCap": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectInstrumentLow": "quem toca {value}",
+  "@clueSubjectInstrumentLow": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectColorCap": "O morador com a porta {value}",
+  "@clueSubjectColorCap": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectColorLow": "o morador com a porta {value}",
+  "@clueSubjectColorLow": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectGenericCap": "O(a) {value}",
+  "@clueSubjectGenericCap": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "clueSubjectGenericLow": "o(a) {value}",
+  "@clueSubjectGenericLow": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "itemJames": "James",
+  "itemMaria": "Maria",
+  "itemPriya": "Priya",
+  "itemChen": "Chen",
+  "itemElena": "Elena",
+  "itemSofia": "Sofia",
+  "itemAhmed": "Ahmed",
+  "itemDmitri": "Dimitri",
+  "itemYuki": "Yuki",
+  "itemOmar": "Omar",
+  "itemFatima": "Fátima",
+  "itemAisha": "Aisha",
+  "itemMei": "Mei",
+  "itemChloe": "Cloé",
+  "itemZara": "Zara",
+  "itemLucia": "Lúcia",
+  "itemAmara": "Amara",
+  "itemIngrid": "Ingride",
+  "itemAnanya": "Ananya",
+  "itemLeila": "Leila",
+  "itemDoctor": "Médico(a)",
+  "itemEngineer": "Engenheiro(a)",
+  "itemTeacher": "Professor(a)",
+  "itemArtist": "Artista",
+  "itemLawyer": "Advogado(a)",
+  "itemPilot": "Piloto",
+  "itemChef": "Chef",
+  "itemNurse": "Enfermeiro(a)",
+  "itemArchitect": "Arquiteto(a)",
+  "itemMusician": "Músico(a)",
+  "itemCat": "Gato",
+  "itemDog": "Cachorro",
+  "itemParrot": "Papagaio",
+  "itemHamster": "Hamster",
+  "itemTurtle": "Tartaruga",
+  "itemRabbit": "Coelho",
+  "itemIguana": "Iguana",
+  "itemFerret": "Furão",
+  "itemFish": "Peixe",
+  "itemHedgehog": "Ouriço",
+  "itemGardening": "Jardinagem",
+  "itemPhotography": "Fotografia",
+  "itemChess": "Xadrez",
+  "itemPainting": "Pintura",
+  "itemBaking": "Confeitaria",
+  "itemAstronomy": "Astronomia",
+  "itemGaming": "Jogos",
+  "itemHiking": "Trilha",
+  "itemYoga": "Yoga",
+  "itemOrigami": "Origami",
+  "itemEspresso": "Espresso",
+  "itemGreenTea": "Chá Verde",
+  "itemCocoa": "Cacau",
+  "itemLemonade": "Limonada",
+  "itemBoba": "Chá de bolhas",
+  "itemCappuccino": "Cappuccino",
+  "itemSmoothie": "Smoothie",
+  "itemChai": "Chai",
+  "itemMilkshake": "Milkshake",
+  "itemIcedCoffee": "Café Gelado",
+  "itemCrimson": "Carmesim",
+  "itemSapphire": "Safira",
+  "itemEmerald": "Esmeralda",
+  "itemAmber": "Âmbar",
+  "itemViolet": "Violeta",
+  "itemCoral": "Coral",
+  "itemTeal": "Verde-azulado",
+  "itemGold": "Dourada",
+  "itemLavender": "Lavanda",
+  "itemTurquoise": "Turquesa",
+  "itemBicycle": "Bicicleta",
+  "itemScooter": "Patinete",
+  "itemElectricCar": "Carro Elétrico",
+  "itemVintageCar": "Carro Clássico",
+  "itemMotorcycle": "Moto",
+  "itemSkateboard": "Skate",
+  "itemUnicycle": "Monociclo",
+  "itemSegway": "Segway",
+  "itemRollerblades": "Patins",
+  "itemMoped": "Motoneta",
+  "itemPiano": "Piano",
+  "itemGuitar": "Violão",
+  "itemViolin": "Violino",
+  "itemDrums": "Bateria",
+  "itemFlute": "Flauta",
+  "itemSaxophone": "Saxofone",
+  "itemCello": "Violoncelo",
+  "itemTrumpet": "Trompete",
+  "itemHarp": "Harpa",
+  "itemClarinet": "Clarinete",
+  "itemAmerican": "Estadunidense",
+  "itemBrazilian": "Brasileiro(a)",
+  "itemChinese": "Chinês(a)",
+  "itemJapanese": "Japonês(a)",
+  "itemEgyptian": "Egípcio(a)",
+  "itemSpanish": "Espanhol(a)",
+  "itemRussian": "Russo(a)",
+  "itemIndian": "Indiano(a)",
+  "itemMoroccan": "Marroquino(a)",
+  "itemItalian": "Italiano(a)"
+}

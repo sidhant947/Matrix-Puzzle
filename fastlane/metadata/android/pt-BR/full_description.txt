@@ -1,0 +1,11 @@
+Matrix Puzzle é um jogo minimalista de quebra-cabeça lógico.
+
+Recursos:
+
+- Níveis Infinitos: Quebra-cabeças gerados proceduralmente para uma jogabilidade sem fim.
+
+- 100% Offline: Jogue a qualquer hora e em qualquer lugar, sem precisar de conexão com a internet.
+
+- Sem Anúncios e Sem Rastreadores: Focado em privacidade, com zero propagandas ou coleta de dados.
+
+- Leve: Interface limpa e livre de distrações.
