@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_pt.dart';
 
 // ignore_for_file: type=lint
 
@@ -92,7 +93,11 @@ abstract class AppLocalizations {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
+  static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
+    Locale('pt'),
+    Locale('pt', 'BR'),
+  ];
 
   /// No description provided for @appTitle.
   ///
@@ -670,6 +675,18 @@ abstract class AppLocalizations {
   /// **'Generate Practice Building'**
   String get generatePracticeBuilding;
 
+  /// No description provided for @language.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get language;
+
+  /// No description provided for @systemDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'System Default'**
+  String get systemDefault;
+
   /// No description provided for @moveCrossedCluesToBottomTitle.
   ///
   /// In en, this message translates to:
@@ -693,6 +710,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Automatically verify and complete the puzzle when correct, removing the Check Solution button'**
   String get autoCheckSolutionSubtitle;
+
+  /// No description provided for @followOnTwitter.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow me on Twitter'**
+  String get followOnTwitter;
+
+  /// No description provided for @followOnMastodon.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow me on Mastodon'**
+  String get followOnMastodon;
 
   /// No description provided for @clueFixedFloorGround.
   ///
@@ -1570,17 +1599,31 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en'].contains(locale.languageCode);
+      <String>['en', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+  // Lookup logic when language+country codes are specified.
+  switch (locale.languageCode) {
+    case 'pt':
+      {
+        switch (locale.countryCode) {
+          case 'BR':
+            return AppLocalizationsPtBr();
+        }
+        break;
+      }
+  }
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
+    case 'pt':
+      return AppLocalizationsPt();
   }
 
   throw FlutterError(

@@ -113,10 +113,14 @@
     }
   },
   "generatePracticeBuilding": "Gerar Prédio de Prática",
+  "language": "Idioma",
+  "systemDefault": "Padrão do Sistema",
   "moveCrossedCluesToBottomTitle": "Mover Pistas Riscadas para o Fim",
   "moveCrossedCluesToBottomSubtitle": "Quando ativado, as pistas riscadas serão movidas para o final da lista",
   "autoCheckSolutionTitle": "Verificação Automática",
   "autoCheckSolutionSubtitle": "Verifica e conclui automaticamente o quebra-cabeça quando correto, removendo o botão Verificar Solução",
+  "followOnTwitter": "Siga-me no Twitter",
+  "followOnMastodon": "Siga-me no Mastodon",
   "clueFixedFloorGround": "{subject} mora no 1º andar (Térreo).",
   "@clueFixedFloorGround": {
     "placeholders": {

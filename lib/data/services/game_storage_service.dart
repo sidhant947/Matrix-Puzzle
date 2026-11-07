@@ -79,4 +79,16 @@ class GameStorageService {
   Future<void> setAutoCheckSolution(bool value) async {
     await _progressBox.put('auto_check_solution', value);
   }
+
+  String? getLocaleCode() {
+    return _progressBox.get('locale_code') as String?;
+  }
+
+  Future<void> setLocaleCode(String? value) async {
+    if (value == null) {
+      await _progressBox.delete('locale_code');
+    } else {
+      await _progressBox.put('locale_code', value);
+    }
+  }
 }

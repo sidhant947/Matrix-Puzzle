@@ -116,10 +116,14 @@
     }
   },
   "generatePracticeBuilding": "Generate Practice Building",
+  "language": "Language",
+  "systemDefault": "System Default",
   "moveCrossedCluesToBottomTitle": "Move Crossed Clues to Bottom",
   "moveCrossedCluesToBottomSubtitle": "When enabled, clues crossed off will move to the bottom of the list",
   "autoCheckSolutionTitle": "Auto Check Solution",
   "autoCheckSolutionSubtitle": "Automatically verify and complete the puzzle when correct, removing the Check Solution button",
+  "followOnTwitter": "Follow me on Twitter",
+  "followOnMastodon": "Follow me on Mastodon",
   "clueFixedFloorGround": "{subject} lives on the 1st floor (Ground floor).",
   "@clueFixedFloorGround": {
     "placeholders": {

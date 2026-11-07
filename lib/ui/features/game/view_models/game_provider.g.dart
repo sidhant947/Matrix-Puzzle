@@ -24,7 +24,7 @@ final gameStorageServiceProvider =
 
 typedef GameStorageServiceRef = AutoDisposeProviderRef<GameStorageService>;
 String _$matrixPuzzleEngineHash() =>
-    r'd94eabab57831f8a4437a072b836e8635f3b7d65';
+    r'7e3502173f931fb34f10fb6f8e33140ed7c06c9a';
 
 /// See also [matrixPuzzleEngine].
 @ProviderFor(matrixPuzzleEngine)
@@ -40,7 +40,7 @@ final matrixPuzzleEngineProvider =
 );
 
 typedef MatrixPuzzleEngineRef = AutoDisposeProviderRef<MatrixPuzzleEngine>;
-String _$gameRepositoryHash() => r'1bb5728b82e146ae5f2d8aa7c90209b8039dab9f';
+String _$gameRepositoryHash() => r'aa272a764dc82330d324ce93c84ea5893f3c8a44';
 
 /// See also [gameRepository].
 @ProviderFor(gameRepository)
@@ -69,7 +69,7 @@ final userProgressProvider = AutoDisposeProvider<Map<String, dynamic>>.internal(
 );
 
 typedef UserProgressRef = AutoDisposeProviderRef<Map<String, dynamic>>;
-String _$gameNotifierHash() => r'0ccef024f685384434ea112718a99a0fdaed8eb2';
+String _$gameNotifierHash() => r'e7f76e212b2e62ec65e809c8afdb731c9eda83a8';
 
 /// See also [GameNotifier].
 @ProviderFor(GameNotifier)

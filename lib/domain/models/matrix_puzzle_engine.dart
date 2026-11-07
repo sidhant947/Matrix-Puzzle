@@ -324,6 +324,10 @@ class MatrixPuzzleEngine {
     return clue;
   }
 
+  static String ordinal(int n, [String? locale]) => _ClueConstraint._ordinal(n, locale);
+  static String article(String noun, {String? locale, bool definite = false}) =>
+      _ClueConstraint._article(noun, locale: locale, definite: definite);
+
   static String localizeItem(AppLocalizations l10n, String item) {
     switch (item) {
       case 'James': return l10n.itemJames;
@@ -534,9 +538,9 @@ class _ClueConstraint {
         if (floorNum == 1) {
           return l10n.clueFixedFloorGround(subj1);
         } else if (floorsCount != null && floorNum == floorsCount) {
-          return l10n.clueFixedFloorTop(subj1, _ordinal(floorNum));
+          return l10n.clueFixedFloorTop(subj1, _ordinal(floorNum, l10n.localeName));
         } else {
-          return l10n.clueFixedFloor(subj1, _ordinal(floorNum));
+          return l10n.clueFixedFloor(subj1, _ordinal(floorNum, l10n.localeName));
         }
 
       case _ClueKind.parityFloor:
@@ -575,7 +579,7 @@ class _ClueConstraint {
     if (c1 == 'Name') {
       final locV1 = MatrixPuzzleEngine.localizeItem(l10n, v1);
       final locV2 = MatrixPuzzleEngine.localizeItem(l10n, v2);
-      final article = _article(locV2);
+      final article = _article(locV2, locale: l10n.localeName);
       if (c2 == 'Pet') return l10n.clueSameFloorPet(locV1, article, locV2);
       if (c2 == 'Hobby') return l10n.clueSameFloorHobby(locV1, locV2);
       if (c2 == 'Drink') return l10n.clueSameFloorDrink(locV1, locV2);
@@ -594,7 +598,7 @@ class _ClueConstraint {
     if (c1 == 'Name') {
       final locV1 = MatrixPuzzleEngine.localizeItem(l10n, v1);
       final locV2 = MatrixPuzzleEngine.localizeItem(l10n, v2);
-      final article = _article(locV2);
+      final article = _article(locV2, locale: l10n.localeName);
       if (c2 == 'Pet') return l10n.clueNegativeFloorPet(locV1, article, locV2);
       if (c2 == 'Hobby') return l10n.clueNegativeFloorHobby(locV1, locV2);
       if (c2 == 'Drink') return l10n.clueNegativeFloorDrink(locV1, locV2);
@@ -612,7 +616,7 @@ class _ClueConstraint {
   static String _localizedSubject(String cat, String val, bool capitalize, AppLocalizations l10n) {
     final locVal = MatrixPuzzleEngine.localizeItem(l10n, val);
     if (cat == 'Name') return locVal;
-    final article = _article(locVal);
+    final article = _article(locVal, locale: l10n.localeName);
     if (cat == 'Nationality') {
       return capitalize ? l10n.clueSubjectNationalityCap(locVal) : l10n.clueSubjectNationalityLow(locVal);
     }
@@ -727,7 +731,30 @@ class _ClueConstraint {
     return capitalize ? "The $val" : "the $val";
   }
 
-  static String _ordinal(int n) {
+  static const Set<String> _feminineNounsPt = {
+    'turtle',
+    'tartaruga',
+    'iguana',
+    'bicycle',
+    'bicicleta',
+    'motorcycle',
+    'moto',
+    'moped',
+    'motoneta',
+    'lavender',
+    'lavanda',
+    'turquoise',
+    'turquesa',
+  };
+
+  static bool _isFemininePt(String noun) {
+    return _feminineNounsPt.contains(noun.trim().toLowerCase());
+  }
+
+  static String _ordinal(int n, [String? locale]) {
+    if (locale != null && locale.startsWith('pt')) {
+      return '$nº';
+    }
     if (n >= 11 && n <= 13) return '${n}th';
     switch (n % 10) {
       case 1: return '${n}st';
@@ -737,7 +764,15 @@ class _ClueConstraint {
     }
   }
 
-  static String _article(String noun) {
+  static String _article(String noun, {String? locale, bool definite = false}) {
+    if (locale != null && locale.startsWith('pt')) {
+      final isFem = _isFemininePt(noun);
+      if (definite) {
+        return isFem ? 'a' : 'o';
+      }
+      return isFem ? 'uma' : 'um';
+    }
+    if (definite) return 'the';
     if (noun.isEmpty) return 'a';
     final firstLetter = noun[0].toLowerCase();
     return 'aeiou'.contains(firstLetter) ? 'an' : 'a';

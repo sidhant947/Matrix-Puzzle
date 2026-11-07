@@ -1,3 +1,4 @@
+import 'dart:ui' show Locale;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:matrixpuzzle/data/repositories/game_repository.dart';
 import 'package:matrixpuzzle/data/services/game_storage_service.dart';
@@ -216,22 +217,34 @@ class GameNotifier extends _$GameNotifier {
 class SettingsState {
   final bool moveCrossedCluesToBottom;
   final bool autoCheckSolution;
+  final String? localeCode;
 
   const SettingsState({
     this.moveCrossedCluesToBottom = true,
     this.autoCheckSolution = false,
+    this.localeCode,
   });
+
+  Locale? get locale {
+    if (localeCode == null) return null;
+    final parts = localeCode!.split('_');
+    return parts.length > 1 ? Locale(parts[0], parts[1]) : Locale(parts[0]);
+  }
 
   SettingsState copyWith({
     bool? moveCrossedCluesToBottom,
     bool? autoCheckSolution,
+    Object? localeCode = _sentinel,
   }) {
     return SettingsState(
       moveCrossedCluesToBottom: moveCrossedCluesToBottom ?? this.moveCrossedCluesToBottom,
       autoCheckSolution: autoCheckSolution ?? this.autoCheckSolution,
+      localeCode: identical(localeCode, _sentinel) ? this.localeCode : localeCode as String?,
     );
   }
 }
+
+const Object _sentinel = Object();
 
 @riverpod
 class SettingsNotifier extends _$SettingsNotifier {
@@ -241,6 +254,7 @@ class SettingsNotifier extends _$SettingsNotifier {
     return SettingsState(
       moveCrossedCluesToBottom: storage.getMoveCrossedCluesToBottom(),
       autoCheckSolution: storage.getAutoCheckSolution(),
+      localeCode: storage.getLocaleCode(),
     );
   }
 
@@ -254,6 +268,12 @@ class SettingsNotifier extends _$SettingsNotifier {
     final storage = ref.read(gameStorageServiceProvider);
     await storage.setAutoCheckSolution(value);
     state = state.copyWith(autoCheckSolution: value);
+  }
+
+  Future<void> setLocaleCode(String? value) async {
+    final storage = ref.read(gameStorageServiceProvider);
+    await storage.setLocaleCode(value);
+    state = state.copyWith(localeCode: value);
   }
 }
 

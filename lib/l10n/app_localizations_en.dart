@@ -332,6 +332,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get generatePracticeBuilding => 'Generate Practice Building';
 
   @override
+  String get language => 'Language';
+
+  @override
+  String get systemDefault => 'System Default';
+
+  @override
   String get moveCrossedCluesToBottomTitle => 'Move Crossed Clues to Bottom';
 
   @override
@@ -344,6 +350,12 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get autoCheckSolutionSubtitle =>
       'Automatically verify and complete the puzzle when correct, removing the Check Solution button';
+
+  @override
+  String get followOnTwitter => 'Follow me on Twitter';
+
+  @override
+  String get followOnMastodon => 'Follow me on Mastodon';
 
   @override
   String clueFixedFloorGround(String subject) {
